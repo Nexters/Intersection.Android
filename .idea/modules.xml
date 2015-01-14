@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Intersection.Android.iml" filepath="$PROJECT_DIR$/Intersection.Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/IntersectionApp.iml" filepath="$PROJECT_DIR$/IntersectionApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewpager/viewpager.iml" filepath="$PROJECT_DIR$/viewpager/viewpager.iml" />
     </modules>
   </component>
 </project>

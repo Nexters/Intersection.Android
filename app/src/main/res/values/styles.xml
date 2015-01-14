@@ -5,4 +5,20 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--<style name="StyledIndicators" parent="@android:style/Theme.Light">-->
+        <!--<item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>-->
+        <!--&lt;!&ndash;<item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item>&ndash;&gt;-->
+    <!--</style>-->
+
+    <!--<style name="CustomCirclePageIndicator">-->
+        <!--&lt;!&ndash;<item name="fillColor">#FF888888</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="strokeColor">#FF000000</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="strokeWidth">2dp</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="radius">10dp</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="centered">true</item>&ndash;&gt;-->
+    <!--</style>-->
+
 </resources>

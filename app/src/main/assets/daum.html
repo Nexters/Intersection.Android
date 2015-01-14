@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Daum</title>
+    <script type="text/javascript"
+            src="http://apis.daum.net/maps/maps3.js?apikey=116a4f4af54e184168d563e7b11ab9d402047979"></script>
+    <style type="text/css">
+        #map {
+            width: 100vw;
+            height: 100vw;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script type="text/javascript">
+        var collection;
+		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		var options = { //지도를 생성할 때 필요한 기본 옵션
+			center : new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+			level : 3
+		//지도의 레벨(확대, 축소 정도)
+		};
+		var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+        function test(){
+            window.DaumApp.test("test111");
+	    }
+
+	    function receiveCode(json) {
+	        collection = eval(json);
+	        alert(collection[code]);
+	    }
+
+	    function sendCode(params){
+            window.DaumApp.sendCode(JSON.stringify(params));
+	    }
+</script>
+</body>
+</html>

@@ -39,7 +39,7 @@ public class IntroActivity extends Activity {
         boolean isVisited = sessionManager.getBoolean(SessionManager.IS_VISITED);
         Intent intent = null;
 
-        isVisited = false;
+//        isVisited = false;
         if(isVisited)
             intent = new Intent(this, MainActivity.class);
         else

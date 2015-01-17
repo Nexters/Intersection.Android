@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:gravity="center"
-        android:text="House"
+        android:text="IntersectionApp"
         android:textColor="#000"
         android:textSize="50sp" />
 

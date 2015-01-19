@@ -1,14 +1,13 @@
-package com.nexters.intersection.intersectionapp.activity;
+package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 
 import com.nexters.intersection.intersectionapp.R;
-import com.nexters.intersection.intersectionapp.core.SessionManager;
+import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 
 
 public class IntroActivity extends Activity {
@@ -35,16 +34,16 @@ public class IntroActivity extends Activity {
 
     private void endIntro() {
         // 1. 처음일 경우, 2. 아닐 경우
-        SessionManager sessionManager = SessionManager.getInstance(this);
-        boolean isVisited = sessionManager.getBoolean(SessionManager.IS_VISITED);
+        IntersactionSession intersactionSession = IntersactionSession.getInstance(this);
+        boolean isVisited = intersactionSession.getBoolean(IntersactionSession.IS_VISITED);
         Intent intent = null;
 
-//        isVisited = false;
         if(isVisited)
             intent = new Intent(this, MainActivity.class);
-        else
+        else {
+            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
             intent = new Intent(this, StartActivity.class);
-
+        }
         startActivity(intent);
         finish();
     }

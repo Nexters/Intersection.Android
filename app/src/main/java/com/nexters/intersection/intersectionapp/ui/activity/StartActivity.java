@@ -1,27 +1,27 @@
-package com.nexters.intersection.intersectionapp.activity;
+package com.nexters.intersection.intersectionapp.ui.activity;
 
-import com.nexters.intersection.intersectionapp.adapter.*;
+import com.nexters.intersection.intersectionapp.ui.adapter.*;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Window;
 
 import com.nexters.intersection.intersectionapp.R;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
-public class StartActivity extends ActionBarActivity {
-    TestFragmentAdapter mAdapter;
+public class StartActivity extends FragmentActivity {
+    StartFragmentAdapter mAdapter;
     ViewPager mPager;
     PageIndicator mIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_start);
 
-        mAdapter = new TestFragmentAdapter(getSupportFragmentManager());
+        mAdapter = new StartFragmentAdapter(getSupportFragmentManager());
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);

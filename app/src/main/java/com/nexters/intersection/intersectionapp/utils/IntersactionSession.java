@@ -1,19 +1,16 @@
-package com.nexters.intersection.intersectionapp.core;
+package com.nexters.intersection.intersectionapp.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-
-import java.util.HashMap;
 
 /**
  * Created by BoBinLee on 2014-08-01.
  * 카카오톡, 페이스북, 서버로그인 부분
  */
-public class SessionManager {
+public class IntersactionSession {
 	public static final String IS_VISITED = "IS_VISIT";
 
-	private static SessionManager mSessionManager;
+	private static IntersactionSession mIntersactionSession;
 	private SharedPreferences mPref;
 	private SharedPreferences.Editor mEditor;
 	private Context mContext;
@@ -24,16 +21,16 @@ public class SessionManager {
 	// Sharedpref file name
 	private static final String PREF_NAME = "SessionPref";
 
-	public SessionManager(Context context) {
+	public IntersactionSession(Context context) {
 		this.mContext = context;
 		mPref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
 		mEditor = mPref.edit();
 	}
 
-	public static SessionManager getInstance(Context context) {
-		if(mSessionManager == null)
-			mSessionManager = new SessionManager(context);
-		return mSessionManager;
+	public static IntersactionSession getInstance(Context context) {
+		if(mIntersactionSession == null)
+			mIntersactionSession = new IntersactionSession(context);
+		return mIntersactionSession;
 	}
 
 	public void putString(String key, String value){

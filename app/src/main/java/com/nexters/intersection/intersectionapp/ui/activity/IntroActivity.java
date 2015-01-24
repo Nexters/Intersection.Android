@@ -11,7 +11,7 @@ import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 
 
 public class IntroActivity extends Activity {
-    private static int INTRO_LOADING_TIME = 1000;
+    private static int INTRO_LOADING_TIME = 3000;
     private Handler mHandler = null;
 
     @Override
@@ -19,6 +19,7 @@ public class IntroActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_intro);
+
 
         initResource();
     }
@@ -30,6 +31,8 @@ public class IntroActivity extends Activity {
                 endIntro();
             }
         }, INTRO_LOADING_TIME);
+//        ImageView logoGif = (ImageView)findViewById(R.id.logoGif);
+
     }
 
     private void endIntro() {

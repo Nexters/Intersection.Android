@@ -4,14 +4,21 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity = "center"
+        android:src="@drawable/circles2"
+        android:background="@drawable/circles2"
+        />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.06"
         android:gravity="center"
         android:text="IntersectionApp"
         android:textColor="#000"
-        android:textSize="50sp" />
+        android:textSize="20sp"
+        android:id="@+id/logoText" />
 
 </LinearLayout>

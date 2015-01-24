@@ -10,7 +10,7 @@ var container = document.getElementById('map'),
 // 지도를 생성
 var map = new daum.maps.Map(container, options);
 //지도에 클릭 이벤트 생성
-daum.maps.event.addListener(map, 'click', function(event){
+daum.maps.event.addListener(map, 'rightclick', function(event){
   addMarker(event.latLng);
 });
 

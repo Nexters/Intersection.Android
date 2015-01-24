@@ -24,4 +24,6 @@ dependencies {
     compile project(':viewpager')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:19.+'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+
 }

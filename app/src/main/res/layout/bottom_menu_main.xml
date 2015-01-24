@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/btn_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="Home" />
+
+    <Button
+        android:id="@+id/btn_find"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/btn_home"
+        android:layout_alignBottom="@+id/btn_home"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_weight="1"
+        android:text="Find" />
+
+    <Button
+        android:id="@+id/btn_share"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/btn_find"
+        android:layout_alignBottom="@+id/btn_find"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_weight="1"
+        android:text="Share" />
+
+    <Button
+        android:id="@+id/btn_settings"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/btn_share"
+        android:layout_alignBottom="@+id/btn_share"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_weight="1"
+        android:text="Settings" />
+</LinearLayout>

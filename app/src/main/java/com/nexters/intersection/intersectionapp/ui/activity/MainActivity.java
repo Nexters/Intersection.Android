@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         mapBridge = new MapBridge(webView);
 
         if (webView != null) {
-            webView.loadUrl("file:///android_asset/daum.html");
+            webView.loadUrl("file:///android_asset/daum1.html");
             webView.getSettings().setJavaScriptEnabled(true);
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");

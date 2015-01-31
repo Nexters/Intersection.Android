@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         mapBridge = new MapBridge(webView);
 
         if (webView != null) {
-            webView.loadUrl("file:///android_asset/daum.html");
+            webView.loadUrl("file:///android_asset/daum1.html");
             webView.getSettings().setJavaScriptEnabled(true);
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
@@ -67,8 +67,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+//<<<<<<< HEAD
+//        getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
+//        getSupportActionBar().setDisplayShowCustomEnabled(true);
+//
+//=======
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
     }

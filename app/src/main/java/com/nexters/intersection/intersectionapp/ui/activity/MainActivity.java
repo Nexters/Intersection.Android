@@ -1,19 +1,22 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
 
 public class MainActivity extends ActionBarActivity {
     public MapBridge mapBridge;
     public WebView webView;
+    private ButtonFloat mBtnSearch;
     //    public ListView webList;
 //    public EditText originEditText, destinationEditText;
 //    public Button searchBtn;
@@ -38,6 +41,8 @@ public class MainActivity extends ActionBarActivity {
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
 
+        mBtnSearch = (ButtonFloat)findViewById(R.id.am_btn_search);
+
 //        webList = (ListView) findViewById(R.id.web_list);
 //        originEditText = (EditText) findViewById(R.id.origin_edit_text);
 //        destinationEditText = (EditText) findViewById(R.id.destination_edit_text);
@@ -46,15 +51,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initEvent() {
-//        searchBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                String origin, destination;
-////                origin = originEditText.getText().toString();
-////                destination = destinationEditText.getText().toString();
-////                mapBridge.search2Mark(origin, destination);
-//            }
-//        });
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapBridge.test();
+//                String origin, destination;
+//                origin = originEditText.getText().toString();
+//                destination = destinationEditText.getText().toString();
+//                mapBridge.search2Mark(origin, destination);
+            }
+        });
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 mapBridge.test();

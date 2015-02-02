@@ -12,11 +12,13 @@ import android.webkit.WebViewClient;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends ActionBarActivity {
     public MapBridge mapBridge;
     public WebView webView;
     private ButtonFloat mBtnSearch;
+    private SlidingUpPanelLayout mLayout;
     //    public ListView webList;
 //    public EditText originEditText, destinationEditText;
 //    public Button searchBtn;
@@ -43,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
 
         mBtnSearch = (ButtonFloat)findViewById(R.id.am_btn_search);
 
+        mLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        mLayout.hidePanel();
 //        webList = (ListView) findViewById(R.id.web_list);
 //        originEditText = (EditText) findViewById(R.id.origin_edit_text);
 //        destinationEditText = (EditText) findViewById(R.id.destination_edit_text);
@@ -54,6 +58,8 @@ public class MainActivity extends ActionBarActivity {
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtnSearch.hide();
+                mLayout.showPanel();
                 mapBridge.test();
 //                String origin, destination;
 //                origin = originEditText.getText().toString();
@@ -73,12 +79,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//<<<<<<< HEAD
-//        getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-//
-//=======
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
     }

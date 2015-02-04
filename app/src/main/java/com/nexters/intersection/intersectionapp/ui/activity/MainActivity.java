@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
+import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends ActionBarActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
 //    public EditText originEditText, destinationEditText;
 //    public Button searchBtn;
 //    public TextView markText;
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,13 @@ public class MainActivity extends ActionBarActivity {
 
         initResource();
         initEvent();
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
+    }
+
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
     }
 
     public void initResource() {

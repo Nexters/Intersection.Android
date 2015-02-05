@@ -24,19 +24,37 @@
     <nav>
         <button onclick="drawFillPolygon()">다각형버튼</button>
         <button onclick="drawCircle()">원형버튼</button>
-        <button onclick="drawClear()">클리어버튼</button>
+        <button onclick="selectedItem.drawClear()">클리어버튼</button>
         <div id="address_name"></div>
     </nav>
 </div>
 <script type="text/javascript">
-    var markers = [];
 
     var selectedItem = {
+        markers : [],
         area: null,
         center: null,
         addressName: null,
         transPlaces: null,
-        transMarkers: null
+        transMarkers: null,
+        drawClear : function() {
+            // 마커 지우기
+            showMarkers(this.markers, null);
+
+            console.log(this.transMarkers + " test ");
+
+            // 교통 마커 지우기
+            showMarker(this.transMarkers, null);
+
+            if (selectedItem.area != null)
+                selectedItem.area.setMap(null);
+            if (selectedItem.center != null)
+                selectedItem.center.setMap(null);
+
+            this.markers = [];
+            this.transMarkers = [];
+            selectedItem.center = null;
+        }
     };
 
     var areaConfig = {
@@ -50,15 +68,15 @@
         fillOpacity: 0.7  // 채우기 불투명도 입니다
     };
 
-    function drawClear() {
-        showMarkers(null);
-        if (selectedItem.area != null)
-            selectedItem.area.setMap(null);
-        if (selectedItem.center != null)
-            selectedItem.center.setMap(null);
-        markers = [];
-        selectedItem.center = null;
-    }
+//    function drawClear() {
+//        showMarkers(null);
+//        if (selectedItem.area != null)
+//            selectedItem.area.setMap(null);
+//        if (selectedItem.center != null)
+//            selectedItem.center.setMap(null);
+//        markers = [];
+//        selectedItem.center = null;
+//    }
 
     function drawCircle() {
         var center = {lat: 0, lng: 0};
@@ -72,13 +90,13 @@
             selectedItem.center.setMap(null);
 
         // 중간 지점 찾아내기
-        for (var i = 0; i < markers.length; i++) {
-//            circlePath.push(markers[i].getPosition());
-            center.lat += markers[i].getPosition().getLat();
-            center.lng += markers[i].getPosition().getLng();
+        for (var i = 0; i < selectedItem.markers.length; i++) {
+//            circlePath.push(selectedItem.markers[i].getPosition());
+            center.lat += selectedItem.markers[i].getPosition().getLat();
+            center.lng += selectedItem.markers[i].getPosition().getLng();
         }
-        center.lat = center.lat / markers.length;
-        center.lng = center.lng / markers.length;
+        center.lat = center.lat / selectedItem.markers.length;
+        center.lng = center.lng / selectedItem.markers.length;
         centerLatLng = new daum.maps.LatLng(center.lat, center.lng);
         selectedItem.center = showMarker(centerLatLng, {});
         // 중심점
@@ -99,6 +117,8 @@
                     // show Tran
                     for (var i = 0; i < places.length && i < 3; i++) {
                         var latLng = new daum.maps.LatLng(places[i].latitude, places[i].longitude);
+                        // 교통 위치 저장
+                        selectedItem.transMarkers.push(latLng);
 
                         // 이미지 지정
                         var imageSrc = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
@@ -138,10 +158,10 @@
             }
         });
 
-        for (var i = 0; i < markers.length; i++) {
+        for (var i = 0; i < selectedItem.markers.length; i++) {
             var line = [];
 
-            line.push(markers[i].getPosition());
+            line.push(selectedItem.markers[i].getPosition());
             line.push(centerLatLng);
 
             var distance = (new daum.maps.Polygon({
@@ -180,7 +200,7 @@
         return marker;
     }
 
-    function showMarkers(map) {
+    function showMarkers(markers, map) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
@@ -285,7 +305,7 @@
     daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
         // 클릭한 위도, 경도 정보를 가져옵니다
         var latlng = mouseEvent.latLng;
-        markers.push(showMarker(latlng, {}));
+        selectedItem.markers.push(showMarker(latlng, {}));
     });
 
     // Tmp
@@ -307,9 +327,9 @@
             selectedItem.area.setMap(null);
 
         // 바깥기준으로 정렬 해서 보여줘야할 것
-        for (var i = 0; i < markers.length; i++) {
-            polygonPath.push(markers[i].getPosition());
-//            console.log(markers[i].getPosition());
+        for (var i = 0; i < selectedItem.markers.length; i++) {
+            polygonPath.push(selectedItem.markers[i].getPosition());
+//            console.log(selectedItem.markers[i].getPosition());
         }
         areaConfig.path = polygonPath;
 

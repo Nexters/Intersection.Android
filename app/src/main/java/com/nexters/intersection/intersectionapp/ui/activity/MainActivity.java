@@ -1,24 +1,37 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
+import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends ActionBarActivity {
+    private final Handler mHandler = new Handler();
+
     public MapBridge mapBridge;
-    public WebView webView;
+    public WebViewObserver webView;
     private ButtonFloat mBtnSearch;
     private SlidingUpPanelLayout mLayout;
+//    private RelativeLayout mFooter;
+    private LinearLayout mFooter;
+    private int mMinFooterTranslation ;
+    private static int mFooterDiffTotal = 0;
     //    public ListView webList;
 //    public EditText originEditText, destinationEditText;
 //    public Button searchBtn;
@@ -34,8 +47,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initResource() {
-        webView = (WebView) findViewById(R.id.web_view);
+        webView = (WebViewObserver) findViewById(R.id.web_view);
         mapBridge = new MapBridge(webView);
+//        mFooter = (RelativeLayout)findViewById(R.id.am_search_rl);
+        mFooter = (LinearLayout)findViewById(R.id.am_search_ll);
+        mMinFooterTranslation = mFooter.getLayoutParams().height;
 
         if (webView != null) {
             webView.loadUrl("file:///android_asset/daum1.html");
@@ -74,6 +90,25 @@ public class MainActivity extends ActionBarActivity {
 //                mapBridge.search2Mark("봉화산역", "봉화산역");
             }
         });
+        webView.setOnScrollCallBack(new WebViewObserver.onScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t, int oldl, int oldt) {
+                Log.d(MainActivity.class.getSimpleName(), "OnScroll");
+                int diff = oldt - t ;
+                //float newY = mWebViewObserver.getScrollY();
+                if(diff<=0){
+                    //Scroll Down
+                    Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
+                    mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
+                }
+                else {
+                    //Scroll UP
+                    Log.d(MainActivity.class.getSimpleName(), "showToolbar");
+                    mFooterDiffTotal = Math.min(Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation), 0);
+                }
+                mFooter.setTranslationY(-mFooterDiffTotal);
+            }
+        });
     }
 
     @Override
@@ -104,8 +139,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public static class MapBridge {
+    public class MapBridge {
         public WebView webView;
+        private int mMinFooterTranslation = 0;
+        private int mFooterDiffTotal = -100;
 
         public MapBridge(WebView wv) {
             webView = wv;
@@ -115,6 +152,50 @@ public class MainActivity extends ActionBarActivity {
             webView.loadUrl("javascript:test()");
         }
 
+        @JavascriptInterface
+        public void ToggleToolbar() {
+            mHandler.post(new Runnable() {
+                public void run() {
+                    //Toggle
+                    if(mFooter.getTranslationY() > 0) {
+                        //Toolbar가 가려진 상태
+                        Log.d(MainActivity.class.getSimpleName(), "show");
+                        Animation animation = new TranslateAnimation(0,0,100,0);
+                        animation.setDuration(300);
+                        mFooter.startAnimation(animation);
+                        mFooter.setTranslationY(mMinFooterTranslation);
+                    }
+                else {
+                        //Toolbar가 보이는 상태
+                        Log.d(MainActivity.class.getSimpleName(), "hide");
+                        AnimationSet set = new AnimationSet(true);
+                        set.setInterpolator(new AccelerateInterpolator());
+
+                        Animation animation = new TranslateAnimation(0,0,-100,0);
+                        animation.setDuration(300);
+                        mFooter.startAnimation(animation);
+                        mFooter.setTranslationY(-mFooterDiffTotal);
+
+                    }
+
+
+                }
+            });
+        }
+        @JavascriptInterface
+        public void onScrollChangedCallback() {
+            Log.d(MainActivity.class.getSimpleName(), "OnScroll");
+            Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
+
+
+            mHandler.post(new Runnable() {
+                public void run() {
+                    //TODO Toolbar가 보일때만 가려지게 만들고, 애니메이션 효과를 줘야함.
+                    mFooter.setTranslationY(-mFooterDiffTotal);
+                }
+            });
+
+        }
         @JavascriptInterface
         public void test(final String str) {
             Log.d("test", "test: " + str);

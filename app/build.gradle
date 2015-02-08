@@ -25,11 +25,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:19.+'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
-    repositories {
-        mavenCentral()
-    }
     compile 'com.sothree.slidinguppanel:library:2.0.4'
     compile 'com.github.navasmdc:MaterialDesign:1.+'
 
-
+    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.google.code.gson:gson:1.7.2'
 }

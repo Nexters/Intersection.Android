@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="base_uri">http://map-server.herokuapp.com</string>-->
+    <string name="base_uri">http://localhost:8080</string>
+    <!-- like -->
+    <string name="like_uri">/like</string>
+    <!-- map -->
+    <string name="map_uri">/map</string>
+
+</resources>

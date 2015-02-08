@@ -1,2 +1,2 @@
-include ':app'':viewpager'
-include
+include ':app'
+include ':viewpager'

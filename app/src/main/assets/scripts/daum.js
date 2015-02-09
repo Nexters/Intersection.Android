@@ -265,12 +265,14 @@ function getListItem(index, places) {
 }
 
 // TODO Event
-//daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-//    window.DaumApp.ToggleToolbar();
-//});
-//
-//daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
-//    // 클릭한 위도, 경도 정보를 가져옵니다
-//    var latlng = mouseEvent.latLng;
-//    selectedItem.markers.push(showMarker(latlng, {}));
-//});
+// click 이벤트
+daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+   window.DaumApp.ToggleToolbar();
+});
+
+// rightclick 이벤트
+daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
+   // 클릭한 위도, 경도 정보를 가져옵니다
+   var latlng = mouseEvent.latLng;
+   selectedItem.markers.push(showMarker(latlng, {}));
+});

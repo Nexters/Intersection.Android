@@ -18,11 +18,11 @@ import android.widget.LinearLayout;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
-<<<<<<< HEAD
+
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
-=======
+
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
->>>>>>> 02586030b538afb4f05660652378ff7c849ce331
+
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends ActionBarActivity {

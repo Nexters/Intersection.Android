@@ -7,22 +7,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
-
-import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
-
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
-
+import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends ActionBarActivity {
@@ -33,9 +29,10 @@ public class MainActivity extends ActionBarActivity {
     private ButtonFloat mBtnSearch;
     private SlidingUpPanelLayout mLayout;
 //    private RelativeLayout mFooter;
-    private LinearLayout mFooter;
-    private int mMinFooterTranslation ;
-    private static int mFooterDiffTotal = 0;
+    private RelativeLayout mFooter;
+    private LinearLayout mHeader;
+//    private int mMinFooterTranslation=0 ;
+//    private static int mFooterHeight = 0;
     //    public ListView webList;
 //    public EditText originEditText, destinationEditText;
 //    public Button searchBtn;
@@ -61,9 +58,9 @@ public class MainActivity extends ActionBarActivity {
     public void initResource() {
         webView = (WebViewObserver) findViewById(R.id.web_view);
         mapBridge = new MapBridge(webView);
-//        mFooter = (RelativeLayout)findViewById(R.id.am_search_rl);
-        mFooter = (LinearLayout)findViewById(R.id.am_search_ll);
-        mMinFooterTranslation = mFooter.getLayoutParams().height;
+        mFooter = (RelativeLayout)findViewById(R.id.am_footer_rl);
+//        mFooter = (LinearLayout)findViewById(R.id.am_search_ll);
+        mHeader = (LinearLayout)findViewById(R.id.am_header_ll);
 
         if (webView != null) {
             webView.loadUrl("file:///android_asset/daum1.html");
@@ -102,32 +99,34 @@ public class MainActivity extends ActionBarActivity {
 //                mapBridge.search2Mark("봉화산역", "봉화산역");
             }
         });
-        webView.setOnScrollCallBack(new WebViewObserver.onScrollChangedCallback() {
-            @Override
-            public void onScroll(int l, int t, int oldl, int oldt) {
-                Log.d(MainActivity.class.getSimpleName(), "OnScroll");
-                int diff = oldt - t ;
-                //float newY = mWebViewObserver.getScrollY();
-                if(diff<=0){
-                    //Scroll Down
-                    Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
-                    mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
-                }
-                else {
-                    //Scroll UP
-                    Log.d(MainActivity.class.getSimpleName(), "showToolbar");
-                    mFooterDiffTotal = Math.min(Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation), 0);
-                }
-                mFooter.setTranslationY(-mFooterDiffTotal);
-            }
-        });
+//        webView.setOnScrollCallBack(new WebViewObserver.onScrollChangedCallback() {
+//            @Override
+//            public void onScroll(int l, int t, int oldl, int oldt) {
+//                Log.d(MainActivity.class.getSimpleName(), "OnScroll");
+//                int diff = oldt - t ;
+//                //float newY = mWebViewObserver.getScrollY();
+//                if(diff<=0){
+//                    //Scroll Down
+//                    Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
+//                    mFooterHeight = Math.max(mFooterHeight + diff, -mMinFooterTranslation);
+//                }
+//                else {
+//                    //Scroll UP
+//                    Log.d(MainActivity.class.getSimpleName(), "showToolbar");
+//                    mFooterHeight = Math.min(Math.max(mFooterHeight + diff, -mMinFooterTranslation), 0);
+//                }
+//                mFooter.setTranslationY(-mFooterHeight);
+//            }
+//        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
+        getSupportActionBar().setTitle(R.string.app_name);
+
+        //getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         // getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -150,12 +149,26 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClick(View view){
+        int mMinHeaderTranslation = 0;
+       // 0과 음수의 사이
+
+        float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
+        if(mHeader.getTranslationY() < 0 ) { //Header가 숨겨져 잇다면
+            mHeader.setTranslationY(mMinHeaderTranslation);
+        } else {
+            mHeader.setTranslationY(-mHeaderHeight);
+        }
+
+
+    }
 
     public class MapBridge {
         public WebView webView;
         private int mMinFooterTranslation = 0;
-        private int mFooterDiffTotal = -100;
-
+        private int mMinHeaderTranslation = 0;
+        private float mFooterHeight = getResources().getDimension(R.dimen.footer_height);
+        private float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
         public MapBridge(WebView wv) {
             webView = wv;
         }
@@ -168,29 +181,24 @@ public class MainActivity extends ActionBarActivity {
         public void ToggleToolbar() {
             mHandler.post(new Runnable() {
                 public void run() {
-                    //Toggle
+                    //Toggle Footer
                     if(mFooter.getTranslationY() > 0) {
-                        //Toolbar가 가려진 상태
+                        //Footer가 가려진 상태
                         Log.d(MainActivity.class.getSimpleName(), "show");
-                        Animation animation = new TranslateAnimation(0,0,100,0);
-                        animation.setDuration(300);
-                        mFooter.startAnimation(animation);
                         mFooter.setTranslationY(mMinFooterTranslation);
-                    }
-                else {
-                        //Toolbar가 보이는 상태
-                        Log.d(MainActivity.class.getSimpleName(), "hide");
-                        AnimationSet set = new AnimationSet(true);
-                        set.setInterpolator(new AccelerateInterpolator());
-
-                        Animation animation = new TranslateAnimation(0,0,-100,0);
+                        Animation animation = new TranslateAnimation(0,0,mFooterHeight,0);
                         animation.setDuration(300);
                         mFooter.startAnimation(animation);
-                        mFooter.setTranslationY(-mFooterDiffTotal);
+                    }
+                    else {
+                        //Footer가 보이는 상태
+                        Log.d(MainActivity.class.getSimpleName(), "hide");
+                        mFooter.setTranslationY(mFooterHeight);
+                        Animation animation = new TranslateAnimation(0,0, -mFooterHeight,0);
+                        animation.setDuration(300);
+                        mFooter.startAnimation(animation);
 
                     }
-
-
                 }
             });
         }
@@ -202,8 +210,20 @@ public class MainActivity extends ActionBarActivity {
 
             mHandler.post(new Runnable() {
                 public void run() {
-                    //TODO Toolbar가 보일때만 가려지게 만들고, 애니메이션 효과를 줘야함.
-                    mFooter.setTranslationY(-mFooterDiffTotal);
+                    if(!(mFooter.getTranslationY() > 0)) {
+                        mFooter.setTranslationY(mFooterHeight);
+                        Animation animation = new TranslateAnimation(0, 0, -mFooterHeight, 0);
+                        animation.setDuration(300);
+                        mFooter.startAnimation(animation);
+                    }
+                    if(mHeader.getTranslationY() >= 0 ) {
+                        mHeader.setTranslationY(-mHeaderHeight);
+                        Animation animation = new TranslateAnimation(0, 0, mHeaderHeight, 0);
+                        animation.setDuration(300);
+                        mHeader.startAnimation(animation);
+
+                    }
+
                 }
             });
 

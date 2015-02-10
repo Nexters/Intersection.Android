@@ -264,10 +264,15 @@ function getListItem(index, places) {
     return el;
 }
 
+
 // TODO Event
+var isRightClicked= false;
 // click 이벤트
 daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-   window.DaumApp.ToggleToolbar();
+   if(!isRightClicked){
+        window.DaumApp.ToggleToolbar();
+   }
+   isRightClicked = false;
 });
 
 // rightclick 이벤트
@@ -275,4 +280,5 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
    // 클릭한 위도, 경도 정보를 가져옵니다
    var latlng = mouseEvent.latLng;
    selectedItem.markers.push(showMarker(latlng, {}));
+   isRightClicked = true;
 });

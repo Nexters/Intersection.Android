@@ -27,72 +27,89 @@
                 android:id="@+id/web_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"></com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
-            <LinearLayout
-                android:id="@+id/am_search_ll"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+
+
                 android:layout_alignParentBottom="true"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_floating_material_dark"
-                    android:orientation="horizontal"
-                    android:paddingRight="5dp">
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="6"
-                        android:hint="Footer"
-                        android:singleLine="true"
-                        android:textColor="#ff99dd"
-                        android:textColorHint="#ff99dd"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:contentDescription=""
-                        />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:contentDescription=""
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/am_search_rl"-->
+                android:layout_alignParentTop="true"></com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/am_search_ll"-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="78dp"-->
+                <!--android:layout_height="48dp"-->
                 <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentStart="true">-->
+                <!--android:background="@android:color/white"-->
+                <!--android:orientation="vertical">-->
 
+
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@color/background_floating_material_dark"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingRight="5dp">-->
+
+                    <!--<EditText-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_margin="5dp"-->
+                        <!--android:layout_weight="6"-->
+                        <!--android:hint="Footer"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="#ff99dd"-->
+                        <!--android:textColorHint="#ff99dd"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:contentDescription=""-->
+                        <!--/>-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:contentDescription=""-->
+                        <!--/>-->
+                <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+
+                android:orientation="horizontal"
+                android:background="@color/accent_material_light"
+                android:id="@+id/am_header_ll"
+                android:layout_alignParentTop="true">
+
+                </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/am_footer_rl"
+                android:layout_width="match_parent"
+                android:layout_height="129dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true">
+                <Button android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text= "toggle header"
+                    android:onClick="onClick">
+
+                </Button>
                 <com.gc.materialdesign.views.ButtonFloat
                     android:id="@+id/am_btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="20dp"
                     android:background="#1E88E5"
                     materialdesign:animate="true"
-                    android:visibility="gone"
                     materialdesign:iconDrawable="@drawable/ic_action_search" />
-            <!--</RelativeLayout>-->
+            </RelativeLayout>
         </RelativeLayout>
 
 

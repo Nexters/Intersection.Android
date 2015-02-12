@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
         webView = (WebViewObserver) findViewById(R.id.web_view);
         mapBridge = new MapBridge(webView);
         mFooter = (RelativeLayout)findViewById(R.id.am_footer_rl);
-//        mFooter = (LinearLayout)findViewById(R.id.am_search_ll);
+
         mHeader = (LinearLayout)findViewById(R.id.am_header_ll);
 
         if (webView != null) {
@@ -83,8 +83,9 @@ public class MainActivity extends ActionBarActivity {
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBtnSearch.hide();
+
                 mLayout.showPanel();
+                mFooter.setVisibility(View.GONE);
                 mapBridge.test();
 //                String origin, destination;
 //                origin = originEditText.getText().toString();
@@ -99,25 +100,7 @@ public class MainActivity extends ActionBarActivity {
 //                mapBridge.search2Mark("봉화산역", "봉화산역");
             }
         });
-//        webView.setOnScrollCallBack(new WebViewObserver.onScrollChangedCallback() {
-//            @Override
-//            public void onScroll(int l, int t, int oldl, int oldt) {
-//                Log.d(MainActivity.class.getSimpleName(), "OnScroll");
-//                int diff = oldt - t ;
-//                //float newY = mWebViewObserver.getScrollY();
-//                if(diff<=0){
-//                    //Scroll Down
-//                    Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
-//                    mFooterHeight = Math.max(mFooterHeight + diff, -mMinFooterTranslation);
-//                }
-//                else {
-//                    //Scroll UP
-//                    Log.d(MainActivity.class.getSimpleName(), "showToolbar");
-//                    mFooterHeight = Math.min(Math.max(mFooterHeight + diff, -mMinFooterTranslation), 0);
-//                }
-//                mFooter.setTranslationY(-mFooterHeight);
-//            }
-//        });
+
     }
 
     @Override
@@ -151,14 +134,23 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClick(View view){
         int mMinHeaderTranslation = 0;
-       // 0과 음수의 사이
-
         float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-        if(mHeader.getTranslationY() < 0 ) { //Header가 숨겨져 잇다면
-            mHeader.setTranslationY(mMinHeaderTranslation);
-        } else {
-            mHeader.setTranslationY(-mHeaderHeight);
+        switch(view.getId()){
+            case R.id.am_btn_search_cancel :
+                mLayout.hidePanel();
+                mFooter.setVisibility(View.VISIBLE);
+                break;
+            default :
+                if(mHeader.getTranslationY() < 0 ) { //Header가 숨겨져 잇다면
+                    mHeader.setTranslationY(mMinHeaderTranslation);
+                } else {
+                    mHeader.setTranslationY(-mHeaderHeight);
+                }
+                break;
+
         }
+
+
 
 
     }
@@ -181,24 +173,37 @@ public class MainActivity extends ActionBarActivity {
         public void ToggleToolbar() {
             mHandler.post(new Runnable() {
                 public void run() {
-                    //Toggle Footer
-                    if(mFooter.getTranslationY() > 0) {
-                        //Footer가 가려진 상태
-                        Log.d(MainActivity.class.getSimpleName(), "show");
-                        mFooter.setTranslationY(mMinFooterTranslation);
-                        Animation animation = new TranslateAnimation(0,0,mFooterHeight,0);
-                        animation.setDuration(300);
-                        mFooter.startAnimation(animation);
-                    }
-                    else {
-                        //Footer가 보이는 상태
-                        Log.d(MainActivity.class.getSimpleName(), "hide");
-                        mFooter.setTranslationY(mFooterHeight);
-                        Animation animation = new TranslateAnimation(0,0, -mFooterHeight,0);
-                        animation.setDuration(300);
-                        mFooter.startAnimation(animation);
+                    if(mFooter.getVisibility() != View.GONE) { // 검색 결과 화면이 아닐시에
+                        //Toggle Footer
+                        if(mFooter.getTranslationY() > 0) {
+                            //Footer가 가려진 상태
+                            Log.d(MainActivity.class.getSimpleName(), "show");
+                            mFooter.setTranslationY(mMinFooterTranslation);
+                            Animation animation = new TranslateAnimation(0,0,mFooterHeight,0);
+                            animation.setDuration(300);
+                            mFooter.startAnimation(animation);
+                        }
+                        else {
+                            //Footer가 보이는 상태
+                            Log.d(MainActivity.class.getSimpleName(), "hide");
+                            mFooter.setTranslationY(mFooterHeight);
+                            Animation animation = new TranslateAnimation(0,0, -mFooterHeight,0);
+                            animation.setDuration(300);
+                            mFooter.startAnimation(animation);
+                        }
+                    } else { //검색결과 화면일시에
+                        if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
+                            Log.d("Hidden Panel State", mLayout.getPanelState().name());
+                            mLayout.hidePanel();
+
+                        } else {
+                            Log.d("!Hidden Panel State", mLayout.getPanelState().name());
+                            mLayout.showPanel();
+                        }
 
                     }
+
+
                 }
             });
         }
@@ -210,13 +215,13 @@ public class MainActivity extends ActionBarActivity {
 
             mHandler.post(new Runnable() {
                 public void run() {
-                    if(!(mFooter.getTranslationY() > 0)) {
+                    if(!(mFooter.getTranslationY() > 0)) { //Hide Footer
                         mFooter.setTranslationY(mFooterHeight);
                         Animation animation = new TranslateAnimation(0, 0, -mFooterHeight, 0);
                         animation.setDuration(300);
                         mFooter.startAnimation(animation);
                     }
-                    if(mHeader.getTranslationY() >= 0 ) {
+                    if(mHeader.getTranslationY() >= 0 ) { //Hide Header
                         mHeader.setTranslationY(-mHeaderHeight);
                         Animation animation = new TranslateAnimation(0, 0, mHeaderHeight, 0);
                         animation.setDuration(300);

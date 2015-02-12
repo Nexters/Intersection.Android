@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:layout="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:anchorPoint="0.5"
-        sothree:panelHeight="68dp"
+        sothree:anchorPoint="1"
+        sothree:panelHeight="@dimen/footer_height"
         sothree:shadowHeight="4dp">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,52 +32,7 @@
 
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="true"></com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
-            <!--<LinearLayout-->
-                <!--android:id="@+id/am_search_ll"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="48dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:background="@android:color/white"-->
-                <!--android:orientation="vertical">-->
 
-
-
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@color/background_floating_material_dark"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:paddingRight="5dp">-->
-
-                    <!--<EditText-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_margin="5dp"-->
-                        <!--android:layout_weight="6"-->
-                        <!--android:hint="Footer"-->
-                        <!--android:singleLine="true"-->
-                        <!--android:textColor="#ff99dd"-->
-                        <!--android:textColorHint="#ff99dd"-->
-                        <!--android:textSize="16sp" />-->
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:contentDescription=""-->
-                        <!--/>-->
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:contentDescription=""-->
-                        <!--/>-->
-                <!--</LinearLayout>-->
-
-            <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -112,13 +68,15 @@
             </RelativeLayout>
         </RelativeLayout>
 
-
-        <TextView
+        <include
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|top"
-            android:text="중간지점은 모란역 입니다."
-            android:textSize="16sp" />
+            android:layout_height="300dp"
+            android:id="@+id/am_result_footer_rl"
+            layout="@layout/layout_footer"
+            >
+
+            </include>
+
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </RelativeLayout>

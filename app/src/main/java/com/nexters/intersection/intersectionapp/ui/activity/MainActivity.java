@@ -2,9 +2,11 @@ package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
@@ -27,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     public MapBridge mapBridge;
     public WebViewObserver webView;
     private ButtonFloat mBtnSearch;
+    private ButtonFloat mBtnSearch2;
     private SlidingUpPanelLayout mLayout;
 //    private RelativeLayout mFooter;
     private RelativeLayout mFooter;
@@ -110,38 +114,48 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setTitle(R.string.app_name);
 
         //getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        //getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        MenuItemCompat.setActionView(item, R.layout.activity_main);
 
-        // getMenuInflater().inflate(R.menu.menu_main, menu);
+        View view = (View)menu.findItem(R.id.action_search).getActionView();
+        view.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view2) {
+                // Execute when actionbar's item is touched
+                int mMinHeaderTranslation = 0;
+                float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
+                switch (view2.getId()) {
+                    case R.id.am_btn_search_cancel:
+                        mLayout.hidePanel();
+                        mFooter.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
+                            mHeader.setTranslationY(mMinHeaderTranslation);
+                        } else {
+                            mHeader.setTranslationY(-mHeaderHeight);
+                        }
+                        break;
 
-        return true;
+                }
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onClick(View view){
+    public void onClick(View view2) {
+        // Execute when actionbar's item is touched
         int mMinHeaderTranslation = 0;
         float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-        switch(view.getId()){
-            case R.id.am_btn_search_cancel :
+        switch (view2.getId()) {
+            case R.id.am_btn_search_cancel:
                 mLayout.hidePanel();
                 mFooter.setVisibility(View.VISIBLE);
                 break;
-            default :
-                if(mHeader.getTranslationY() < 0 ) { //Header가 숨겨져 잇다면
+            default:
+                if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
                     mHeader.setTranslationY(mMinHeaderTranslation);
                 } else {
                     mHeader.setTranslationY(-mHeaderHeight);
@@ -149,16 +163,10 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
         }
-
-
-
-
     }
-
     public class MapBridge {
         public WebView webView;
         private int mMinFooterTranslation = 0;
-        private int mMinHeaderTranslation = 0;
         private float mFooterHeight = getResources().getDimension(R.dimen.footer_height);
         private float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
         public MapBridge(WebView wv) {

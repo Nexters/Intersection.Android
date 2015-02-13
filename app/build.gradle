@@ -30,4 +30,6 @@ dependencies {
 
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.google.code.gson:gson:1.7.2'
+    //KAKAO Link
+    compile group: project.KAKAO_SDK_GROUP, name: 'kakaolink', version: project.KAKAO_SDK_VERSION
 }

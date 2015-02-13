@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
-
-        <TextView
-            android:id="@+id/am_tv_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|top"
-            android:text="중간지점은 모란역 입니다."
-            android:textSize="16sp" />
-    <Button android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/am_tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|top"
+        android:text="중간지점은 모란역 입니다."
+        android:textSize="16sp" />
+    <TableLayout
         android:layout_width="wrap_content"
-        android:text= "취소하기"
-        android:onClick="onClick"
+        android:layout_height="wrap_content">
+
+
+    </TableLayout>
+    <Button
         android:id="@+id/am_btn_search_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/am_tv_result"
-        android:layout_centerHorizontal="true">
-    </Button>
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="취소하기"></Button>
 </RelativeLayout>

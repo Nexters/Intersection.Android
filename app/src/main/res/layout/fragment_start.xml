@@ -10,14 +10,15 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:src="@drawable/as_btn_next"
+            android:background="@drawable/background_transparent"
+            android:layout_marginBottom="37dp"
             android:layout_alignParentBottom="true"
-            android:visibility="invisible"
-            android:background="@color/ripple_material_dark"
-            android:text="Next" />
+            android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

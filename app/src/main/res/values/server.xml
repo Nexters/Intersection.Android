@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<string name="base_uri">http://map-server.herokuapp.com</string>-->
-    <string name="base_uri">http://localhost:8080</string>
+    <!--<string name="base_uri">http://localhost:8080/map</string>-->
+    <string name="base_uri">http://192.168.219.137:8080/map</string>
+
+    <!-- user -->
+    <string name="user_add">/user/proc/add.map</string>
     <!-- like -->
-    <string name="like_uri">/like</string>
+    <string name="trans_like_list">/like/list.map</string>
     <!-- map -->
     <string name="map_uri">/map</string>
 

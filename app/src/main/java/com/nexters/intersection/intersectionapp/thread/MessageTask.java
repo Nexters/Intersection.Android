@@ -19,8 +19,8 @@ public class MessageTask {
     private static AsyncHttpClient syncClient = new SyncHttpClient();
     private static Gson gson = new Gson();
 
-    public static void postJson(Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
-        String url = context.getString(R.string.base_uri);
+    public static void postJson(String path, Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
+        String url = context.getString(R.string.base_uri) + path;
 
         StringEntity jsonParams = null;
         try {
@@ -33,8 +33,8 @@ public class MessageTask {
                 responseHandler);
     }
 
-    public static void postSyncJson(Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
-        String url = context.getString(R.string.base_uri);
+    public static void postSyncJson(String path, Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
+        String url = context.getString(R.string.base_uri) + path;
 
         StringEntity jsonParams = null;
         try {

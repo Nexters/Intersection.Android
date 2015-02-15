@@ -6,7 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.nexters.intersection.intersectionapp.R;
 import com.nexters.intersection.intersectionapp.ui.activity.MainActivity;
@@ -34,20 +35,33 @@ public final class StartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vw = inflater.inflate(R.layout.fragment_start, null);
+        ImageView img = (ImageView)vw.findViewById(R.id.img_menu);
+        ImageButton nextBtn = (ImageButton) vw.findViewById(R.id.btn_next);
+        switch(location){
+            case 0:
+                   img.setImageResource(R.drawable.howtouse_1);
+                break;
+            case 1:
+                   img.setImageResource(R.drawable.howtouse_2);
+                break;
+            case 2:
+                   img.setImageResource(R.drawable.howtouse_3);
+                break;
+            case 3:
+                   img.setImageResource(R.drawable.howtouse_4);
+                nextBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
 
-        Button nextBtn = (Button) vw.findViewById(R.id.btn_next);
+                        getActivity().startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                nextBtn.setVisibility(View.VISIBLE);
+                break;
 
-        if (location == 2) {
-            nextBtn.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
 
-                    getActivity().startActivity(intent);
-                    getActivity().finish();
-                }
-            });
-            nextBtn.setVisibility(View.VISIBLE);
         }
         return vw;
     }

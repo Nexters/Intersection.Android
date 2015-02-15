@@ -1,9 +1,7 @@
 package com.nexters.intersection.intersectionapp.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -38,7 +36,6 @@ public class CommonUtils {
                                 }
                                 break;
                         }
-
                     }
                 }
             }

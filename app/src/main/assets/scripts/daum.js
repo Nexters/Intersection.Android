@@ -194,7 +194,7 @@ function showMarker(latLng, config) {
     return marker;
 }
 
-function hiddenMarker(marker){
+function hiddenMarker(marker) {
     marker.setMap(null);
     return marker;
 }
@@ -297,7 +297,7 @@ function getListItem(index, places) {
 }
 
 // TODO Event
-
+var isRightClicked = false;
 
 // rightclick 이벤트
 daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
@@ -306,6 +306,7 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     var marker = showMarker(latlng, {});
 
     selectedItem.markers.push(marker);
+    isRightClicked = true;
 
     // 선택 지점 취소
     var infowindow = new daum.maps.InfoWindow({
@@ -316,7 +317,7 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     var isFirst = true;
 
     daum.maps.event.addListener(marker, 'click', function () {
-        if(!isOpen)
+        if (!isOpen)
             infowindow.open(map, marker);
         else
             infowindow.close();
@@ -326,11 +327,11 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
         $(".iw-delete").parent().parent().children("div").css("background", "none");
         $(".iw-delete").parent().parent().css("border", "none");
 
-        if(isFirst){
-            $(".iw-delete").click(function(){
+        if (isFirst) {
+            $(".iw-delete").click(function () {
                 var index = selectedItem.markers.indexOf(marker);
 
-                if(index > -1)
+                if (index > -1)
                     selectedItem.markers.splice(index, 1);
                 hiddenMarker(marker);
                 infowindow.close();
@@ -342,7 +343,9 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
 
 // click 이벤트
 daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-    window.DaumApp.ToggleToolbar();
+    if (!isRightClicked)
+        window.DaumApp.ToggleToolbar();
+    isRightClicked = false;
 });
 
 // bounds_changed 이벤트

@@ -41,12 +41,12 @@ public class IntroActivity extends Activity {
         boolean isVisited = intersactionSession.getBoolean(IntersactionSession.IS_VISITED);
         Intent intent = null;
 
-        if(isVisited)
-            intent = new Intent(this, MainActivity.class);
-        else {
-            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
+//        if(isVisited)
+//            intent = new Intent(this, MainActivity.class);
+//        else {
+//            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
             intent = new Intent(this, StartActivity.class);
-        }
+//        }
         startActivity(intent);
         finish();
     }

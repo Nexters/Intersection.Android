@@ -27,7 +27,7 @@ public class MapBridge {
     public void getTranslation(final String name) {
         Message msg = new Message();
         Bundle bundle = msg.getData();
-        bundle.putSerializable("type", MapBrigeType.ToggleToolbar);
+        bundle.putSerializable("type", MapBrigeType.Translation);
         bundle.putString("name", name);
         msg.setData(bundle);
 

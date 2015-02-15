@@ -21,17 +21,21 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nexters.intersection.intersectionapp.R;
+import com.nexters.intersection.intersectionapp.model.Translation;
 import com.nexters.intersection.intersectionapp.thread.MessageTask;
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -133,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
         MenuItem item = menu.findItem(R.id.action_search);
         MenuItemCompat.setActionView(item, R.layout.activity_main);
 
-        View view = (View)menu.findItem(R.id.action_search).getActionView();
+        View view = (View) menu.findItem(R.id.action_search).getActionView();
         view.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view2) {
                 // Execute when actionbar's item is touched
@@ -224,20 +228,32 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void getTranslation(String name) {
-        Context context = MainActivity.this;
-
         ArrayList<String> list = new ArrayList<String>();
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        final String path = context.getString(R.string.trans_like_list);
+        final String path = this.getString(R.string.trans_like_list);
 
-        list.add(name);
+        try {
+            list.add(URLEncoder.encode(name, "utf-8"));
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
         hashMap.put("names", list);
 
-        MessageTask.postJson(path, context, hashMap, new JsonHttpResponseHandler() {
+        MessageTask.postJson(path, this, hashMap, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                String json = response.toString();
-                Log.d(path, "response : " + response.toString());
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                Translation translation = null;
+
+                if (response.length() > 0) {
+                    try {
+                        String json = response.getJSONObject(0).toString();
+                        translation = (new Gson()).fromJson(response.getJSONObject(0).toString(), Translation.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.d("getTranslation", translation.toString());
             }
         });
     }
@@ -249,18 +265,18 @@ public class MainActivity extends ActionBarActivity {
             super.handleMessage(msg);
 
             MapBrigeType mapBridgeType = (MapBrigeType) msg.getData().getSerializable("type");
-//            Log.d("type : " + mapBridgeType);
+//            Log.d("type", "type");
 
             switch (mapBridgeType) {
                 case ScrollChangedCallback:
                     procScrollChangedCallback();
                     break;
                 case ToggleToolbar:
-                    MainActivity.this.procToggleToolbar();
+                    procToggleToolbar();
                     break;
                 case Translation:
                     String name = msg.getData().getString("name");
-                    MainActivity.this.getTranslation(name);
+                    getTranslation(name);
                     break;
             }
         }

@@ -11,6 +11,8 @@ import com.nexters.intersection.intersectionapp.R;
 
 import org.apache.http.entity.StringEntity;
 
+import java.net.URLEncoder;
+
 /**
  * Created by BoBinLee on 2014-09-04.
  */
@@ -21,8 +23,8 @@ public class MessageTask {
 
     public static void postJson(String path, Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
         String url = context.getString(R.string.base_uri) + path;
-
         StringEntity jsonParams = null;
+
         try {
             jsonParams = new StringEntity(gson.toJson(reqParam));
         } catch (Exception e){
@@ -38,7 +40,7 @@ public class MessageTask {
 
         StringEntity jsonParams = null;
         try {
-            jsonParams = new StringEntity(gson.toJson(reqParam));
+            jsonParams = new StringEntity(URLEncoder.encode(gson.toJson(reqParam), "utf-8"));
         } catch (Exception e){
             e.printStackTrace();
         }

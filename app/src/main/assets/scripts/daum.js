@@ -133,7 +133,8 @@ function searchIntersection() {
                         var isOpen = false;
 
                         daum.maps.event.addListener(marker, 'click', function () {
-                            // TODO 지하철역 클릭시 이벤트 발생하는 곳
+                            getTranslation(title);
+
                             if (!isOpen) {
                                 infowindow.setContent(content);
                                 infowindow.open(map, marker);
@@ -344,12 +345,39 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
 // click 이벤트
 daum.maps.event.addListener(map, 'click', function (mouseEvent) {
     if (!isRightClicked)
-        window.DaumApp.ToggleToolbar();
+        toggleToolbar();
     isRightClicked = false;
 });
 
 // bounds_changed 이벤트
 daum.maps.event.addListener(map, 'bounds_changed', function () {
-    window.DaumApp.onScrollChangedCallback();
-    window.DaumApp.test("test111");
+    onScrollChangedCallback();
+    //window.DaumApp.test("test111");
 });
+
+// Transfer TODO
+function sendCode(params) {
+    window.DaumApp.sendCode(JSON.stringify(params));
+    getTranslation
+}
+
+function onScrollChangedCallback() {
+    window.DaumApp.onScrollChangedCallback();
+}
+
+function toggleToolbar() {
+    window.DaumApp.ToggleToolbar();
+}
+
+function getTranslation(name) {
+    window.DaumApp.getTranslation(name);
+}
+
+function receiveCode(json) {
+    collection = eval(json);
+    alert(collection[code]);
+}
+
+function receiveAndroidId(id) {
+    androidId = id;
+}

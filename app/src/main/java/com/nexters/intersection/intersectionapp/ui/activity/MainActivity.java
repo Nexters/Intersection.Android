@@ -1,8 +1,10 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,23 +21,34 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nexters.intersection.intersectionapp.R;
+import com.nexters.intersection.intersectionapp.thread.MessageTask;
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.apache.http.Header;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MainActivity extends ActionBarActivity {
-    private final Handler mHandler = new Handler();
+    private int mMinFooterTranslation = 0;
+    private int mMinHeaderTranslation = 0;
+    private float mFooterHeight = 0f;
+    private float mHeaderHeight = 0f;
 
     public MapBridge mapBridge;
     public WebViewObserver webView;
     private ButtonFloat mBtnSearch;
     private ButtonFloat mBtnSearch2;
     private SlidingUpPanelLayout mLayout;
-//    private RelativeLayout mFooter;
     private RelativeLayout mFooter;
     private LinearLayout mHeader;
-//    private int mMinFooterTranslation=0 ;
+    //    private int mMinFooterTranslation=0 ;
 //    private static int mFooterHeight = 0;
     //    public ListView webList;
 //    public EditText originEditText, destinationEditText;
@@ -60,11 +73,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initResource() {
-        webView = (WebViewObserver) findViewById(R.id.web_view);
-        mapBridge = new MapBridge(webView);
-        mFooter = (RelativeLayout)findViewById(R.id.am_footer_rl);
+        mFooterHeight = getResources().getDimension(R.dimen.footer_height);
+        mHeaderHeight = getResources().getDimension(R.dimen.header_height);
 
-        mHeader = (LinearLayout)findViewById(R.id.am_header_ll);
+        webView = (WebViewObserver) findViewById(R.id.web_view);
+        mapBridge = new MapBridge(webView, targetHandler);
+        mFooter = (RelativeLayout) findViewById(R.id.am_footer_rl);
+        mHeader = (LinearLayout) findViewById(R.id.am_header_ll);
 
         if (webView != null) {
             webView.loadUrl("file:///android_asset/daum1.html");
@@ -72,9 +87,9 @@ public class MainActivity extends ActionBarActivity {
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
 
-        mBtnSearch = (ButtonFloat)findViewById(R.id.am_btn_search);
+        mBtnSearch = (ButtonFloat) findViewById(R.id.am_btn_search);
 
-        mLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.hidePanel();
 //        webList = (ListView) findViewById(R.id.web_list);
 //        originEditText = (EditText) findViewById(R.id.origin_edit_text);
@@ -87,7 +102,6 @@ public class MainActivity extends ActionBarActivity {
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mLayout.showPanel();
                 mFooter.setVisibility(View.GONE);
                 mapBridge.test();
@@ -144,12 +158,10 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    public void onClick(View view2) {
-        // Execute when actionbar's item is touched
+    public void onClick(View view) {
         int mMinHeaderTranslation = 0;
         float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-        switch (view2.getId()) {
+        switch (view.getId()) {
             case R.id.am_btn_search_cancel:
                 mLayout.hidePanel();
                 mFooter.setVisibility(View.VISIBLE);
@@ -164,86 +176,93 @@ public class MainActivity extends ActionBarActivity {
 
         }
     }
-    public class MapBridge {
-        public WebView webView;
-        private int mMinFooterTranslation = 0;
-        private float mFooterHeight = getResources().getDimension(R.dimen.footer_height);
-        private float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-        public MapBridge(WebView wv) {
-            webView = wv;
+
+    // TODO MAP Method
+    public void procScrollChangedCallback() {
+        if (!(mFooter.getTranslationY() > 0)) { //Hide Footer
+            mFooter.setTranslationY(mFooterHeight);
+            Animation animation = new TranslateAnimation(0, 0, -mFooterHeight, 0);
+            animation.setDuration(300);
+            mFooter.startAnimation(animation);
         }
-
-        public void test() {
-            webView.loadUrl("javascript:test()");
-        }
-
-        @JavascriptInterface
-        public void ToggleToolbar() {
-            mHandler.post(new Runnable() {
-                public void run() {
-                    if(mFooter.getVisibility() != View.GONE) { // 검색 결과 화면이 아닐시에
-                        //Toggle Footer
-                        if(mFooter.getTranslationY() > 0) {
-                            //Footer가 가려진 상태
-                            Log.d(MainActivity.class.getSimpleName(), "show");
-                            mFooter.setTranslationY(mMinFooterTranslation);
-                            Animation animation = new TranslateAnimation(0,0,mFooterHeight,0);
-                            animation.setDuration(300);
-                            mFooter.startAnimation(animation);
-                        }
-                        else {
-                            //Footer가 보이는 상태
-                            Log.d(MainActivity.class.getSimpleName(), "hide");
-                            mFooter.setTranslationY(mFooterHeight);
-                            Animation animation = new TranslateAnimation(0,0, -mFooterHeight,0);
-                            animation.setDuration(300);
-                            mFooter.startAnimation(animation);
-                        }
-                    } else { //검색결과 화면일시에
-                        if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
-                            Log.d("Hidden Panel State", mLayout.getPanelState().name());
-                            mLayout.hidePanel();
-
-                        } else {
-                            Log.d("!Hidden Panel State", mLayout.getPanelState().name());
-                            mLayout.showPanel();
-                        }
-
-                    }
-
-
-                }
-            });
-        }
-        @JavascriptInterface
-        public void onScrollChangedCallback() {
-            Log.d(MainActivity.class.getSimpleName(), "OnScroll");
-            Log.d(MainActivity.class.getSimpleName(), "hideToolbar");
-
-
-            mHandler.post(new Runnable() {
-                public void run() {
-                    if(!(mFooter.getTranslationY() > 0)) { //Hide Footer
-                        mFooter.setTranslationY(mFooterHeight);
-                        Animation animation = new TranslateAnimation(0, 0, -mFooterHeight, 0);
-                        animation.setDuration(300);
-                        mFooter.startAnimation(animation);
-                    }
-                    if(mHeader.getTranslationY() >= 0 ) { //Hide Header
-                        mHeader.setTranslationY(-mHeaderHeight);
-                        Animation animation = new TranslateAnimation(0, 0, mHeaderHeight, 0);
-                        animation.setDuration(300);
-                        mHeader.startAnimation(animation);
-
-                    }
-
-                }
-            });
-
-        }
-        @JavascriptInterface
-        public void test(final String str) {
-            Log.d("test", "test: " + str);
+        if (mHeader.getTranslationY() >= 0) { //Hide Header
+            mHeader.setTranslationY(-mHeaderHeight);
+            Animation animation = new TranslateAnimation(0, 0, mHeaderHeight, 0);
+            animation.setDuration(300);
+            mHeader.startAnimation(animation);
         }
     }
+
+    public void procToggleToolbar() {
+        if (mFooter.getVisibility() != View.GONE) { // 검색 결과 화면이 아닐시에
+            //Toggle Footer
+            if (mFooter.getTranslationY() > 0) {
+                //Footer가 가려진 상태
+                Log.d(MainActivity.class.getSimpleName(), "show");
+                mFooter.setTranslationY(mMinFooterTranslation);
+                Animation animation = new TranslateAnimation(0, 0, mFooterHeight, 0);
+                animation.setDuration(300);
+                mFooter.startAnimation(animation);
+            } else {
+                //Footer가 보이는 상태
+                Log.d(MainActivity.class.getSimpleName(), "hide");
+                mFooter.setTranslationY(mFooterHeight);
+                Animation animation = new TranslateAnimation(0, 0, -mFooterHeight, 0);
+                animation.setDuration(300);
+                mFooter.startAnimation(animation);
+            }
+        } else { //검색결과 화면일시에
+            if (mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+                Log.d("Hidden Panel State", mLayout.getPanelState().name());
+                mLayout.hidePanel();
+
+            } else {
+                Log.d("!Hidden Panel State", mLayout.getPanelState().name());
+                mLayout.showPanel();
+            }
+        }
+    }
+
+    public void getTranslation(String name) {
+        Context context = MainActivity.this;
+
+        ArrayList<String> list = new ArrayList<String>();
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        final String path = context.getString(R.string.trans_like_list);
+
+        list.add(name);
+        hashMap.put("names", list);
+
+        MessageTask.postJson(path, context, hashMap, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                String json = response.toString();
+                Log.d(path, "response : " + response.toString());
+            }
+        });
+    }
+
+    // TODO MAP Bridge
+    Handler targetHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            MapBrigeType mapBridgeType = (MapBrigeType) msg.getData().getSerializable("type");
+//            Log.d("type : " + mapBridgeType);
+
+            switch (mapBridgeType) {
+                case ScrollChangedCallback:
+                    procScrollChangedCallback();
+                    break;
+                case ToggleToolbar:
+                    MainActivity.this.procToggleToolbar();
+                    break;
+                case Translation:
+                    String name = msg.getData().getString("name");
+                    MainActivity.this.getTranslation(name);
+                    break;
+            }
+        }
+    };
 }

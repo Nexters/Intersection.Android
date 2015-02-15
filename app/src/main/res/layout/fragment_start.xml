@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,21 +7,18 @@
     <ImageView
         android:id="@+id/img_menu"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:background="@color/gray" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <Button
+        <ImageButton
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:src="@drawable/as_btn_next"
+            android:background="@drawable/background_transparent"
+            android:layout_marginBottom="37dp"
             android:layout_alignParentBottom="true"
-            android:visibility="invisible"
-            android:text="Next" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

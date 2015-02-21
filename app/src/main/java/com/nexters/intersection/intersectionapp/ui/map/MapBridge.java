@@ -1,4 +1,4 @@
-package com.nexters.intersection.intersectionapp.ui.activity;
+package com.nexters.intersection.intersectionapp.ui.map;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,6 +6,8 @@ import android.os.Message;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+
+import com.nexters.intersection.intersectionapp.ui.activity.MainActivity;
 
 /**
  * Created by BoBinLee on 2015-02-15.
@@ -23,11 +25,23 @@ public class MapBridge {
         webView.loadUrl("javascript:test()");
     }
 
+    public void moveLocation(double lat, double lng){
+        webView.loadUrl("javascript:moveLocation(" + lat + "," + lng + ")");
+    }
+
+    public void searchIntersection() {
+        webView.loadUrl("javascript:searchIntersection()");
+    }
+
+    public void directSearch(String search){
+        webView.loadUrl("javascript:directSearch('" + search + "')");
+    }
+
     @JavascriptInterface
     public void getTranslation(final String name) {
         Message msg = new Message();
         Bundle bundle = msg.getData();
-        bundle.putSerializable("type", MapBrigeType.Translation);
+        bundle.putSerializable("type", MapBridgeType.Translation);
         bundle.putString("name", name);
         msg.setData(bundle);
 
@@ -38,7 +52,7 @@ public class MapBridge {
     public void ToggleToolbar() {
         Message msg = new Message();
         Bundle bundle = msg.getData();
-        bundle.putSerializable("type", MapBrigeType.ToggleToolbar);
+        bundle.putSerializable("type", MapBridgeType.ToggleToolbar);
         msg.setData(bundle);
 
         mHandler.sendMessage(msg);
@@ -51,7 +65,7 @@ public class MapBridge {
 
         Message msg = new Message();
         Bundle bundle = msg.getData();
-        bundle.putSerializable("type", MapBrigeType.ScrollChangedCallback);
+        bundle.putSerializable("type", MapBridgeType.ScrollChangedCallback);
         msg.setData(bundle);
 
         mHandler.sendMessage(msg);

@@ -36,14 +36,16 @@ public class IntroActivity extends Activity {
     }
 
     private void initResource(){
-        mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                endIntro();
-            }
-        }, INTRO_LOADING_TIME);
-//        ImageView logoGif = (ImageView)findViewById(R.id.logoGif);
+        Intent intent = null;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
+//        mHandler = new Handler();
+//        mHandler.postDelayed(new Runnable() {
+//            public void run() {
+//                endIntro();
+//            }
+//        }, INTRO_LOADING_TIME);
     }
 
     private void endIntro() {
@@ -55,11 +57,12 @@ public class IntroActivity extends Activity {
         // 유저 등록
         addUser();
 
+        intent = new Intent(this, MainActivity.class);
 //        if(isVisited)
 //            intent = new Intent(this, MainActivity.class);
 //        else {
 //            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
-            intent = new Intent(this, StartActivity.class);
+//            intent = new Intent(this, StartActivity.class);
 //        }
         startActivity(intent);
         finish();

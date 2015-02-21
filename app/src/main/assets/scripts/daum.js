@@ -90,6 +90,9 @@ function searchIntersection() {
                 for (var i = 0, cnt = 0; i < places.length; i++) {
                     places[i].title = places[i].title.split(" ")[0];
 
+                    if(places[i].title.slice(-1) != '역')
+                        continue;
+
                     function searchTitle(places, title) {
                         for (var i = 0; i < places.length; i++) {
                             if (places[i].title == title)
@@ -134,13 +137,12 @@ function searchIntersection() {
 
                         daum.maps.event.addListener(marker, 'click', function () {
                             getTranslation(title);
-
-                            if (!isOpen) {
-                                infowindow.setContent(content);
-                                infowindow.open(map, marker);
-                            } else
-                                infowindow.close();
-                            isOpen = !isOpen;
+                            //if (!isOpen) {
+                            //    infowindow.setContent(content);
+                            //    infowindow.open(map, marker);
+                            //} else
+                            //    infowindow.close();
+                            //isOpen = !isOpen;
                         });
                     })(marker, threePlaces[i].title);
                 }
@@ -268,9 +270,8 @@ function directSearch(searchPlace) {
 }
 
 // 안드로이드 gps로 좌표받아 내 위치 이동
-function moveMyLoc(myLat, myLong) {
-    var moveLoc = new daum.maps.LatLng(myLat, myLong);
-
+function moveLocation(lat, lng) {
+    var moveLoc = new daum.maps.LatLng(lat, lng);
     ps.panTo(moveLoc);
 }
 
@@ -302,9 +303,24 @@ var isRightClicked = false;
 
 // rightclick 이벤트
 daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
+    var eventMarker = new daum.maps.Marker({});
+    eventMarker.setPosition(mouseEvent.latLng);
+
+    var duplicateChk = $.grep(selectedItem.markers, function(marker){
+
+        console.log("m : " + marker.getPosition());
+        console.log("m1 : " + eventMarker.getPosition());
+
+        return marker.getPosition().getLat() == eventMarker.getPosition().getLat() && marker.getPosition().getLng() == eventMarker.getPosition().getLng();
+    });
+
+    if(duplicateChk.length >= 1)
+        return ;
+
+    //  console.log(duplicateChk);
+
     // 클릭한 위도, 경도 정보를 가져옵니다
-    var latlng = mouseEvent.latLng;
-    var marker = showMarker(latlng, {});
+    var marker = showMarker(mouseEvent.latLng, {});
 
     selectedItem.markers.push(marker);
     isRightClicked = true;

@@ -1,7 +1,13 @@
 package com.nexters.intersection.intersectionapp.utils;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -50,4 +56,30 @@ public class CommonUtils {
 //        Log.d("android_id", "android_id : " + str);
         return str;
     }
+
+
+    public static void getMyLocation(Context context, LocationListener locationListener){
+        LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        locManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+    }
+
+   /* *//* Class My Location Listener *//*
+    public class MyLocationListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location loc){
+            Log.d("MyLocationListener", "Latitudine = " + loc.getLatitude() + "Longitudine = " + loc.getLongitude());
+//            String Text = "La mia posizione: "+"Latitudine = "+loc.getLatitude()+"Longitudine = "+loc.getLongitude();
+        }
+        @Override
+        public void onProviderDisabled(String provider){
+//            Toast.makeText( getApplicationContext(),"Gps disabilitato",Toast.LENGTH_SHORT ).show();
+        }
+        @Override
+        public void onProviderEnabled(String provider){
+//            Toast.makeText( getApplicationContext(),"Gps abilitato",Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras){
+        }
+    }*/
 }

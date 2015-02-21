@@ -17,6 +17,8 @@ public class Translation implements Serializable {
     private Timestamp created;
     private Timestamp modified;
 
+    private String address;
+
     public void setLikeStatus(boolean likeStatus){
         this.likeStatus = likeStatus;
     }
@@ -79,6 +81,14 @@ public class Translation implements Serializable {
 
     public void setModified(Timestamp modified) {
         this.modified = modified;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

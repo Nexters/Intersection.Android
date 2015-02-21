@@ -38,11 +38,12 @@ public class MapBridge {
     }
 
     @JavascriptInterface
-    public void getTranslation(final String name) {
+    public void getTranslation(final String name, final String address) {
         Message msg = new Message();
         Bundle bundle = msg.getData();
         bundle.putSerializable("type", MapBridgeType.Translation);
         bundle.putString("name", name);
+        bundle.putString("address", address);
         msg.setData(bundle);
 
         mHandler.sendMessage(msg);

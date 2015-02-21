@@ -128,7 +128,7 @@ function searchIntersection() {
                     // 마커 항목에 click 했을때
                     // 해당 장소에 인포윈도우에 장소명을 표시합니다
                     // click 했을 때는 인포윈도우를 닫습니다
-                    (function (marker, title) {
+                    (function (marker, title, address) {
                         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
                         var infowindow = new daum.maps.InfoWindow({zIndex: 1});
                         var content = '<div style="padding:5px;z-index:1;">' + title + '<span> ' +
@@ -136,7 +136,7 @@ function searchIntersection() {
                         var isOpen = false;
 
                         daum.maps.event.addListener(marker, 'click', function () {
-                            getTranslation(title);
+                            getTranslation(title, address);
                             //if (!isOpen) {
                             //    infowindow.setContent(content);
                             //    infowindow.open(map, marker);
@@ -144,7 +144,7 @@ function searchIntersection() {
                             //    infowindow.close();
                             //isOpen = !isOpen;
                         });
-                    })(marker, threePlaces[i].title);
+                    })(marker, threePlaces[i].title, threePlaces[i].address);
                 }
                 // 가까운 전철역 보여주기
 //                    var res = "";
@@ -374,7 +374,7 @@ daum.maps.event.addListener(map, 'bounds_changed', function () {
 // Transfer TODO
 function sendCode(params) {
     window.DaumApp.sendCode(JSON.stringify(params));
-    getTranslation
+    //getTranslation
 }
 
 function onScrollChangedCallback() {
@@ -385,8 +385,8 @@ function toggleToolbar() {
     window.DaumApp.ToggleToolbar();
 }
 
-function getTranslation(name) {
-    window.DaumApp.getTranslation(name);
+function getTranslation(name, address) {
+    window.DaumApp.getTranslation(name, address);
 }
 
 function receiveCode(json) {

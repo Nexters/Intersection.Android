@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
     private SlidingUpPanelLayout mLayout;
 
     private RelativeLayout mFooterResult;
-    private TextView mLikeCnt, mTransName;
+    private TextView mLikeCnt, mTransName, mTransAddress;
     private Button mSelectedTransCancel, mSelectedTransDone;
     private ImageView mToggleLike;
 
@@ -108,7 +108,8 @@ public class MainActivity extends ActionBarActivity {
         mLayout.hidePanel();
 
         mLikeCnt = (TextView) mFooterResult.findViewById(R.id.am_tv_like_count);
-        mTransName = (TextView) mFooterResult.findViewById(R.id.am_tv_result);
+        mTransName = (TextView) mFooterResult.findViewById(R.id.am_tv_name);
+        mTransAddress = (TextView) mFooterResult.findViewById(R.id.am_tv_address);
         mToggleLike = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
 
         mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
@@ -157,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
                     public void onFinish() {
                         super.onFinish();
                         Log.d("mToggleLike", translation.getName());
-                        getTranslation(translation.getName());
+                        getTranslation(translation.getName(), null);
                     }
                 });
             }
@@ -254,7 +255,7 @@ public class MainActivity extends ActionBarActivity {
         return animation;
     }
 
-    public void getTranslation(String name) {
+    public void getTranslation(String name, final String address) {
         ArrayList<String> list = new ArrayList<String>();
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         final String path = this.getString(R.string.trans_like_list);
@@ -271,7 +272,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
-                Translation translation = null;
+                Translation translation = null, preTranslation = null;
 
                 if (response.length() > 0) {
                     try {
@@ -284,9 +285,17 @@ public class MainActivity extends ActionBarActivity {
 
                 if (translation != null) {
                     Log.d("getTranslation", translation.toString());
+
+                    preTranslation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+                    if(preTranslation != null)
+                        translation.setAddress(preTranslation.getAddress());
+                    if(address != null)
+                        translation.setAddress(address);
+
                     mFooterResult.setTag(mFooterResult.getId(), translation);
                     mLikeCnt.setText("" + translation.getLikeCount());
                     mTransName.setText(translation.getName());
+                    mTransAddress.setText(translation.getAddress());
 
                     mFooter.setVisibility(View.GONE);
                     mLayout.showPanel();
@@ -313,7 +322,8 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case Translation:
                     String name = msg.getData().getString("name");
-                    getTranslation(name);
+                    String address = msg.getData().getString("address");
+                    getTranslation(name, address);
                     break;
             }
         }

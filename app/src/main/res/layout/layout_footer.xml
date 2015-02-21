@@ -6,7 +6,8 @@
     <LinearLayout
         android:id="@+id/am_tv_first_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/am_toggle_btn_like"
@@ -21,7 +22,7 @@
             android:text="0" />
 
         <TextView
-            android:id="@+id/am_tv_result"
+            android:id="@+id/am_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|top"
@@ -29,10 +30,20 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/am_tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_tv_first_layout"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="중간지점은 모란역 입니다."
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/am_tv_address"
         android:gravity="center">
 
         <Button

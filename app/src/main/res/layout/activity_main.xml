@@ -92,12 +92,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
-        <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="toggle header"
-        android:onClick="onClick"></Button>
-
         <com.gc.materialdesign.views.ButtonFloat
             android:id="@+id/am_btn_search"
             android:layout_width="wrap_content"

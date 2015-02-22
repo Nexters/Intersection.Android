@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:background="#FFCCCCCC"
         android:padding="10dip" />
+
+
     <!--app:fillColor="#FF888888"-->
     <!--app:pageColor="#88FF0000"-->
     <!--app:radius="10dp"-->

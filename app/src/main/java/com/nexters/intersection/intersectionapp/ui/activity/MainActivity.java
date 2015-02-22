@@ -1,8 +1,11 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +33,6 @@ public class MainActivity extends ActionBarActivity {
     public MapBridge mapBridge;
     public WebViewObserver webView;
     private ButtonFloat mBtnSearch;
-    private ButtonFloat mBtnSearch2;
     private SlidingUpPanelLayout mLayout;
 //    private RelativeLayout mFooter;
     private RelativeLayout mFooter;
@@ -47,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
 
         initResource();
         initEvent();
@@ -57,6 +60,26 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
+    }
+    public void Tutorial(View view) {
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
+    public void Verinfo(View view) {
+        Intent intent = new Intent(this, VerActivity.class);
+        startActivity(intent);
+    }
+    public void Email(View view) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jjungda@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
+        i.putExtra(Intent.EXTRA_TEXT   , "내용을 입력하세요");
+        try {
+            startActivity(Intent.createChooser(i, "문의하기"));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void initResource() {
@@ -110,27 +133,21 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
-        getSupportActionBar().setTitle(R.string.app_name);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main, menu);
+//        //getSupportActionBar().setTitle(R.string.app_name);
 
         //getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
         //getSupportActionBar().setDisplayShowCustomEnabled(true);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        MenuItemCompat.setActionView(item, R.layout.activity_main);
-
-        View view = (View)menu.findItem(R.id.action_search).getActionView();
-        view.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view2) {
-                // Execute when actionbar's item is touched
-                int mMinHeaderTranslation = 0;
-                float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-                switch (view2.getId()) {
-                    case R.id.am_btn_search_cancel:
-                        mLayout.hidePanel();
-                        mFooter.setVisibility(View.VISIBLE);
-                        break;
-                    default:
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            int mMinHeaderTranslation = 0;
+            float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.action_search:
                         if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
                             mHeader.setTranslationY(mMinHeaderTranslation);
                         } else {
@@ -139,31 +156,39 @@ public class MainActivity extends ActionBarActivity {
                         break;
 
                 }
+
+                return true;
             }
         });
+
+
         return super.onCreateOptionsMenu(menu);
     }
 
 
-    public void onClick(View view2) {
-        // Execute when actionbar's item is touched
-        int mMinHeaderTranslation = 0;
-        float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-        switch (view2.getId()) {
-            case R.id.am_btn_search_cancel:
-                mLayout.hidePanel();
-                mFooter.setVisibility(View.VISIBLE);
-                break;
-            default:
-                if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
-                    mHeader.setTranslationY(mMinHeaderTranslation);
-                } else {
-                    mHeader.setTranslationY(-mHeaderHeight);
-                }
-                break;
 
-        }
-    }
+//    public void onClick(View view) {
+//        // Execute when actionbar's item is touched
+//        int mMinHeaderTranslation = 0;
+//        float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
+//        switch (view.getId()) {
+//            case R.id.am_btn_search_cancel:
+//                mLayout.hidePanel();
+//                mFooter.setVisibility(View.VISIBLE);
+//                break;
+//            default:
+//                if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
+//                    mHeader.setTranslationY(mMinHeaderTranslation);
+//                } else {
+//                    mHeader.setTranslationY(-mHeaderHeight);
+//                }
+//                break;
+//
+//        }
+//    }
+
+
+
     public class MapBridge {
         public WebView webView;
         private int mMinFooterTranslation = 0;

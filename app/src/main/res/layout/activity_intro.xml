@@ -4,13 +4,13 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity = "center"
-        android:src="@drawable/circles2"
-        android:background="@drawable/circles2"
-        />
+    <!--<pl.droidsonroids.gif.GifImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity = "center"-->
+        <!--android:src="@drawable/circles2"-->
+        <!--android:background="@drawable/circles2"-->
+        <!--/>-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

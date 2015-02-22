@@ -11,6 +11,8 @@ import com.nexters.intersection.intersectionapp.R;
 
 import org.apache.http.entity.StringEntity;
 
+import java.net.URLEncoder;
+
 /**
  * Created by BoBinLee on 2014-09-04.
  */
@@ -19,10 +21,10 @@ public class MessageTask {
     private static AsyncHttpClient syncClient = new SyncHttpClient();
     private static Gson gson = new Gson();
 
-    public static void postJson(Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
-        String url = context.getString(R.string.base_uri);
-
+    public static void postJson(String path, Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
+        String url = context.getString(R.string.base_uri) + path;
         StringEntity jsonParams = null;
+
         try {
             jsonParams = new StringEntity(gson.toJson(reqParam));
         } catch (Exception e){
@@ -33,12 +35,12 @@ public class MessageTask {
                 responseHandler);
     }
 
-    public static void postSyncJson(Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
-        String url = context.getString(R.string.base_uri);
+    public static void postSyncJson(String path, Context context, Object reqParam, AsyncHttpResponseHandler responseHandler) {
+        String url = context.getString(R.string.base_uri) + path;
 
         StringEntity jsonParams = null;
         try {
-            jsonParams = new StringEntity(gson.toJson(reqParam));
+            jsonParams = new StringEntity(URLEncoder.encode(gson.toJson(reqParam), "utf-8"));
         } catch (Exception e){
             e.printStackTrace();
         }

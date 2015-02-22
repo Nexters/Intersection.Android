@@ -90,6 +90,9 @@ function searchIntersection() {
                 for (var i = 0, cnt = 0; i < places.length; i++) {
                     places[i].title = places[i].title.split(" ")[0];
 
+                    if(places[i].title.slice(-1) != '역')
+                        continue;
+
                     function searchTitle(places, title) {
                         for (var i = 0; i < places.length; i++) {
                             if (places[i].title == title)
@@ -122,22 +125,26 @@ function searchIntersection() {
 
                     // 교통 위치 저장
                     selectedItem.transMarkers.push(marker);
-
-                    // 마커 항목에 mouseover 했을때
+                    // 마커 항목에 click 했을때
                     // 해당 장소에 인포윈도우에 장소명을 표시합니다
-                    // mouseout 했을 때는 인포윈도우를 닫습니다
-                    (function (marker, title) {
-                        daum.maps.event.addListener(marker, 'mouseover', function () {
-                            var content = '<div style="padding:5px;z-index:1;">' + title + '<span> Like 100 </span></div>';
+                    // click 했을 때는 인포윈도우를 닫습니다
+                    (function (marker, title, address) {
+                        // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+                        var infowindow = new daum.maps.InfoWindow({zIndex: 1});
+                        var content = '<div style="padding:5px;z-index:1;">' + title + '<span> ' +
+                            ' Like 100 </span></div>';
+                        var isOpen = false;
 
-                            infowindow.setContent(content);
-                            infowindow.open(map, marker);
+                        daum.maps.event.addListener(marker, 'click', function () {
+                            getTranslation(title, address);
+                            //if (!isOpen) {
+                            //    infowindow.setContent(content);
+                            //    infowindow.open(map, marker);
+                            //} else
+                            //    infowindow.close();
+                            //isOpen = !isOpen;
                         });
-
-                        daum.maps.event.addListener(marker, 'mouseout', function () {
-                            infowindow.close();
-                        });
-                    })(marker, threePlaces[i].title);
+                    })(marker, threePlaces[i].title, threePlaces[i].address);
                 }
                 // 가까운 전철역 보여주기
 //                    var res = "";
@@ -190,6 +197,11 @@ function showMarker(latLng, config) {
     return marker;
 }
 
+function hiddenMarker(marker) {
+    marker.setMap(null);
+    return marker;
+}
+
 function showMarkers(markers, map) {
     if (markers == null)
         return;
@@ -204,12 +216,30 @@ function showMarkers(markers, map) {
 var geocoder = new daum.maps.services.Geocoder();
 // 장소 검색 객체를 생성합니다
 var ps = new daum.maps.services.Places();
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new daum.maps.InfoWindow({zIndex: 1});
 
 function searchAddrFromCoords(coords, callback) {
     // 좌표로 주소 정보를 요청합니다
     geocoder.coord2addr(coords, callback);
+}
+
+// 검색으로 지도 이동하기 위한 함수입니다
+function placesSearch(status, data, pagination) {
+    if (status === daum.maps.services.Status.OK) {
+
+        // 지도 부드럽게 이동하기 위해 bound알아냄
+        var bounds = new daum.maps.LatLngBounds();
+
+        for (var i = 0; i < data.places.length; i++) {
+            bounds.extend(new daum.maps.LatLng(data.places[i].latitude, data.places[i].longitude));
+        }
+
+        var south = bounds.getSouthWest();
+        var north = bounds.getNorthEast();
+
+        var moveLatLon = new daum.maps.LatLng((south.getLat() + north.getLat()) / 2, (south.getLng() + north.getLng()) / 2);
+
+        map.panTo(moveLatLon);
+    }
 }
 
 // 키워드 검색을 요청하는 함수입니다
@@ -234,11 +264,16 @@ function searchPlaces(keyword, callback) {
     });
     return true;
 }
-// bounds_changed 이벤트
-daum.maps.event.addListener(map, 'bounds_changed', function () {
-    window.DaumApp.onScrollChangedCallback();
-    window.DaumApp.test("test111");
-});
+
+function directSearch(searchPlace) {
+    ps.keywordSearch(searchPlace, placesSearch);
+}
+
+// 안드로이드 gps로 좌표받아 내 위치 이동
+function moveLocation(lat, lng) {
+    var moveLoc = new daum.maps.LatLng(lat, lng);
+    ps.panTo(moveLoc);
+}
 
 // 검색결과 항목을 Element로 반환하는 함수입니다
 function getListItem(index, places) {
@@ -257,28 +292,108 @@ function getListItem(index, places) {
 
     itemStr += '  <span class="tel">' + places.phone + '</span>' +
     '</div>';
-
     el.innerHTML = itemStr;
     el.className = 'item';
 
     return el;
 }
 
-
 // TODO Event
-var isRightClicked= false;
-// click 이벤트
-daum.maps.event.addListener(map, 'click', function (mouseEvent) {
-   if(!isRightClicked){
-        window.DaumApp.ToggleToolbar();
-   }
-   isRightClicked = false;
-});
+var isRightClicked = false;
 
 // rightclick 이벤트
 daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
-   // 클릭한 위도, 경도 정보를 가져옵니다
-   var latlng = mouseEvent.latLng;
-   selectedItem.markers.push(showMarker(latlng, {}));
-   isRightClicked = true;
+    var eventMarker = new daum.maps.Marker({});
+    eventMarker.setPosition(mouseEvent.latLng);
+
+    var duplicateChk = $.grep(selectedItem.markers, function(marker){
+
+        console.log("m : " + marker.getPosition());
+        console.log("m1 : " + eventMarker.getPosition());
+
+        return marker.getPosition().getLat() == eventMarker.getPosition().getLat() && marker.getPosition().getLng() == eventMarker.getPosition().getLng();
+    });
+
+    if(duplicateChk.length >= 1)
+        return ;
+
+    //  console.log(duplicateChk);
+
+    // 클릭한 위도, 경도 정보를 가져옵니다
+    var marker = showMarker(mouseEvent.latLng, {});
+
+    selectedItem.markers.push(marker);
+    isRightClicked = true;
+
+    // 선택 지점 취소
+    var infowindow = new daum.maps.InfoWindow({
+        position: marker,
+        content: '<p class="iw-delete"><img style="position: absolute; top: 33px; left: 98px; width: 10px;" src="./images/pin_option_2.png"></p>'
+    });
+    var isOpen = false;
+    var isFirst = true;
+
+    daum.maps.event.addListener(marker, 'click', function () {
+        if (!isOpen)
+            infowindow.open(map, marker);
+        else
+            infowindow.close();
+        isOpen = !isOpen;
+
+        $(".iw-delete").parent().parent().css("background", "none");
+        $(".iw-delete").parent().parent().children("div").css("background", "none");
+        $(".iw-delete").parent().parent().css("border", "none");
+
+        if (isFirst) {
+            $(".iw-delete").click(function () {
+                var index = selectedItem.markers.indexOf(marker);
+
+                if (index > -1)
+                    selectedItem.markers.splice(index, 1);
+                hiddenMarker(marker);
+                infowindow.close();
+            });
+            isFirst = !isFirst;
+        }
+    });
 });
+
+// click 이벤트
+daum.maps.event.addListener(map, 'click', function (mouseEvent) {
+    if (!isRightClicked)
+        toggleToolbar();
+    isRightClicked = false;
+});
+
+// bounds_changed 이벤트
+daum.maps.event.addListener(map, 'bounds_changed', function () {
+    onScrollChangedCallback();
+    //window.DaumApp.test("test111");
+});
+
+// Transfer TODO
+function sendCode(params) {
+    window.DaumApp.sendCode(JSON.stringify(params));
+    //getTranslation
+}
+
+function onScrollChangedCallback() {
+    window.DaumApp.onScrollChangedCallback();
+}
+
+function toggleToolbar() {
+    window.DaumApp.ToggleToolbar();
+}
+
+function getTranslation(name, address) {
+    window.DaumApp.getTranslation(name, address);
+}
+
+function receiveCode(json) {
+    collection = eval(json);
+    alert(collection[code]);
+}
+
+function receiveAndroidId(id) {
+    androidId = id;
+}

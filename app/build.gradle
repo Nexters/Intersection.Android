@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.nexters.intersection.intersectionapp"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -23,7 +23,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':viewpager')
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:support-v4:19.+'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.sothree.slidinguppanel:library:2.0.4'
     compile 'com.github.navasmdc:MaterialDesign:1.+'

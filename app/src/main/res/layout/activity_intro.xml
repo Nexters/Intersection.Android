@@ -1,24 +1,47 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical"
     tools:context=".MainActivity">
-    <pl.droidsonroids.gif.GifImageView
+
+    <ImageView
+        android:id="@+id/ai_iv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity = "center"
-        android:src="@drawable/circles2"
-        android:background="@drawable/circles2"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2.06"
-        android:gravity="center"
-        android:text="IntersectionApp"
-        android:textColor="#000"
-        android:textSize="20sp"
-        android:id="@+id/logoText" />
+        android:src="@drawable/title_splash"
+        android:layout_centerHorizontal="true"
 
-</LinearLayout>
+        android:layout_marginTop="133.3dp" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ai_iv_logo"
+        android:src = "@drawable/logo_splash"
+        android:layout_below="@id/ai_iv_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+         />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ai_iv_title_tutorial"
+        android:src="@drawable/title_tutorial"
+        android:layout_below="@id/ai_iv_logo"
+        android:layout_marginTop="56.67dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/name_splash"
+        android:id="@+id/ai_iv_name"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        />
+
+
+
+
+</RelativeLayout>

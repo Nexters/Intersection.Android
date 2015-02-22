@@ -12,10 +12,10 @@ import android.view.animation.TranslateAnimation;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.nexters.intersection.intersectionapp.R;
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
 
     public MapBridge mapBridge;
     public WebViewObserver webView;
-    private ButtonFloat mBtnSearch;
+    private ImageButton mBtnSearch;
     private SlidingUpPanelLayout mLayout;
 //    private RelativeLayout mFooter;
     private RelativeLayout mFooter;
@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
 
-        mBtnSearch = (ButtonFloat)findViewById(R.id.am_btn_search);
+        mBtnSearch = (ImageButton)findViewById(R.id.am_btn_search);
 
         mLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         mLayout.hidePanel();

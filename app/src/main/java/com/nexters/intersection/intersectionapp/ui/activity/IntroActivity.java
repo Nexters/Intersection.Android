@@ -11,7 +11,7 @@ import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 
 
 public class IntroActivity extends Activity {
-    private static int INTRO_LOADING_TIME = 3000;
+    private static int INTRO_LOADING_TIME = 2000;
     private Handler mHandler = null;
 
     @Override

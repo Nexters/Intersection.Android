@@ -39,15 +39,19 @@ public final class StartFragment extends Fragment {
         ImageButton nextBtn = (ImageButton) vw.findViewById(R.id.btn_next);
         switch(location){
             case 0:
+                vw = inflater.inflate(R.layout.activity_intro, null);
+                ImageView tutoImg = (ImageView)vw.findViewById(R.id.ai_iv_title_tutorial);
+                tutoImg.setVisibility(View.VISIBLE);
+            case 1:
                    img.setImageResource(R.drawable.howtouse_1);
                 break;
-            case 1:
+            case 2:
                    img.setImageResource(R.drawable.howtouse_2);
                 break;
-            case 2:
+            case 3:
                    img.setImageResource(R.drawable.howtouse_3);
                 break;
-            case 3:
+            case 4:
                    img.setImageResource(R.drawable.howtouse_4);
                 nextBtn.setOnClickListener(new View.OnClickListener(){
                     @Override

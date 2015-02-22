@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.nexters.intersection.intersectionapp.ui.fragment.StartFragment;
 
 public class StartFragmentAdapter extends FragmentPagerAdapter {
-    private int mCount = 4;
+    private int mCount = 5;
 
     public StartFragmentAdapter(FragmentManager fm) {
         super(fm);

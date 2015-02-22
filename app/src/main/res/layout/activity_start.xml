@@ -17,8 +17,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_transparent"
         android:layout_alignParentBottom="true"
-
-         />
+        />
     <!--app:fillColor="#FF888888"-->
     <!--app:pageColor="#88FF0000"-->
     <!--app:radius="10dp"-->

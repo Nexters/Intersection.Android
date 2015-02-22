@@ -11,17 +11,17 @@
         android:layout_height="wrap_content"
         android:src="@drawable/title_splash"
         android:layout_centerHorizontal="true"
-
         android:layout_marginTop="133.3dp" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ai_iv_logo"
-        android:src = "@drawable/logo_splash"
+        android:src="@drawable/logo_splash"
         android:layout_below="@id/ai_iv_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-         />
+        android:layout_marginTop="59dp" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,8 @@
         android:layout_below="@id/ai_iv_logo"
         android:layout_marginTop="56.67dp"
         android:visibility="invisible"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,10 +39,5 @@
         android:id="@+id/ai_iv_name"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:layout_centerHorizontal="true"
-        />
-
-
-
-
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -26,7 +26,6 @@ public class StartActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
 
-        mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
     }
 }

@@ -30,7 +30,11 @@
             android:name=".ui.activity.StartActivity"
             android:label="@string/title_activity_start" />
         <activity
-            android:name=".ui.activity.TestActivity"
+        android:name=".ui.activity.TestActivity"
+        android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".ui.activity.VerActivity"
             android:label="@string/title_activity_test" >
         </activity>
     </application>

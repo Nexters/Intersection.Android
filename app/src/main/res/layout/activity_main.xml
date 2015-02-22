@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
+        android:text="@string/hello_world"
         sothree:anchorPoint="1"
         sothree:panelHeight="@dimen/footer_height"
         sothree:shadowHeight="4dp">
@@ -24,8 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true">
-            </com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
+                android:layout_alignParentTop="true"></com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
 
             <LinearLayout
                 android:id="@+id/am_header_ll"
@@ -35,45 +34,70 @@
                 android:background="@color/accent_material_light"
                 android:translationZ="100dp"
                 android:layout_alignParentTop="true">
-                <Button
+
+                <ImageButton
+                    android:id="@+id/imageButton"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="1"
-                    />
-                <Button
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button00_setting_bar" />
+
+                <ImageButton
                     android:id="@+id/am_header_myloc"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="mylocation"
-                    />
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="3"
-                    />
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="4"
-                    />
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="5"
-                    />
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="6"
-                    />
-            </LinearLayout>
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button01_setting_bar" />
 
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:onClick="Tutorial"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button02_setting_bar" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:onClick="Verinfo"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button03_setting_bar" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:onClick="Email"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button04_setting_bar" />
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button05_setting_bar" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/am_footer_rl"
@@ -90,17 +114,17 @@
                     android:src="@drawable/button_selector"
                     android:layout_centerInParent="true">
 
-                    </ImageButton>
+                </ImageButton>
 
                 <!--<com.gc.materialdesign.views.ButtonFloat-->
-                    <!--android:id="@+id/am_btn_search"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_marginBottom="20dp"-->
-                    <!--materialdesign:animate="true"-->
-                    <!--materialdesign:iconDrawable="@drawable/ic_action_search" />-->
+                <!--android:id="@+id/am_btn_search"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--materialdesign:animate="true"-->
+                <!--materialdesign:iconDrawable="@drawable/ic_action_search" />-->
             </RelativeLayout>
 
         </RelativeLayout>
@@ -109,8 +133,7 @@
             android:id="@+id/am_result_footer_rl"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            layout="@layout/layout_footer">
-        </include>
+            layout="@layout/layout_footer"></include>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </RelativeLayout>

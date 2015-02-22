@@ -2,7 +2,10 @@
  * Created by BoBinLee on 2015-02-08.
  */
 
+var markerImgs = ["images/pin_1.png", "images/pin_2.png", "images/pin_3.png", "images/pin_4.png", "images/pin_5.png", "images/pin_6.png", "images/pin_7.png", "images/pin_8.png", "images/pin_9.png", "images/pin_10.png", "images/pin_11.png", "images/pin_12.png"];
+
 var selectedItem = {
+    curCount: 0,
     markers: [],
     area: null,
     center: null,
@@ -10,6 +13,9 @@ var selectedItem = {
     transPlaces: null,
     transMarkers: null,
     drawClear: function () {
+        // 갯수
+        this.curCount = 0;
+
         // 마커 지우기
         showMarkers(this.markers, null);
 
@@ -53,6 +59,7 @@ function searchIntersection() {
     if (selectedItem.center != null)
         selectedItem.center.setMap(null);
 
+    selectedItem.curCount += 1;
     // 중간 지점 찾아내기
     for (var i = 0; i < selectedItem.markers.length; i++) {
 //            circlePath.push(selectedItem.markers[i].getPosition());
@@ -351,6 +358,7 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
                 if (index > -1)
                     selectedItem.markers.splice(index, 1);
                 hiddenMarker(marker);
+                selectedItem.curCount -= 1;
                 infowindow.close();
             });
             isFirst = !isFirst;

@@ -84,26 +84,6 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         backPressCloseHandler.onBackPressed();
     }
-    public void Tutorial(View view) {
-        Intent intent = new Intent(this, StartActivity.class);
-        startActivity(intent);
-    }
-    public void Verinfo(View view) {
-        Intent intent = new Intent(this, VerActivity.class);
-        startActivity(intent);
-    }
-    public void Email(View view) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jjungda@gmail.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
-        i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
-        try {
-            startActivity(Intent.createChooser(i, "문의하기"));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void initResource() {
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -125,7 +105,6 @@ public class MainActivity extends ActionBarActivity {
             webView.getSettings().setJavaScriptEnabled(true);
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
-
 
         mBtnSearch = (ImageButton)findViewById(R.id.am_btn_search);
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -216,6 +195,8 @@ public class MainActivity extends ActionBarActivity {
 
         //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+//        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -227,16 +208,18 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
-
-        //getSupportActionBar().setCustomView(R.layout.bottom_menu_main);
-        //getSupportActionBar().setDisplayShowCustomEnabled(true);
-//        MenuItemCompat.setActionView(item, R.layout.activity_main);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
+
+        switch (itemId){
+            case R.id.action_settings :
+                procToggleToolbar();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -298,6 +281,7 @@ public class MainActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 Translation translation = null, preTranslation = null;
+                int likeSrc = 0;
 
                 if (response.length() > 0) {
                     try {
@@ -316,6 +300,13 @@ public class MainActivity extends ActionBarActivity {
                         translation.setAddress(preTranslation.getAddress());
                     if(address != null)
                         translation.setAddress(address);
+
+                    if(translation.getLikeStatus())
+                        likeSrc = R.drawable.llike_icon_2;
+                    else
+                        likeSrc = R.drawable.llike_icon;
+                    ImageView imageView = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
+                    imageView.setImageResource(likeSrc);
 
                     mFooterResult.setTag(mFooterResult.getId(), translation);
                     mLikeCnt.setText("" + translation.getLikeCount());
@@ -352,6 +343,28 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
+    /* TODO 메뉴 버튼 */
+    public void Tutorial(View view) {
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
+    public void Verinfo(View view) {
+        Intent intent = new Intent(this, VerActivity.class);
+        startActivity(intent);
+    }
+    public void Email(View view) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jjungda@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
+        i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
+        try {
+            startActivity(Intent.createChooser(i, "문의하기"));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /* tmp */
   /*  public void onClick(View view) {

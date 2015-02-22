@@ -29,9 +29,8 @@
             <LinearLayout
                 android:id="@+id/am_header_ll"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:background="@color/accent_material_light"
                 android:translationZ="100dp"
                 android:layout_alignParentTop="true">
 

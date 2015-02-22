@@ -36,16 +36,20 @@ public class IntroActivity extends Activity {
     }
 
     private void initResource(){
-        Intent intent = null;
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
+        skip();
 //        mHandler = new Handler();
 //        mHandler.postDelayed(new Runnable() {
 //            public void run() {
 //                endIntro();
 //            }
 //        }, INTRO_LOADING_TIME);
+    }
+
+    private void skip(){
+        Intent intent = null;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void endIntro() {

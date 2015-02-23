@@ -1,49 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-<<<<<<< HEAD
-    android:layout_height="match_parent" android:background="@drawable/result_layer_1">
-=======
-    android:layout_height="match_parent"
 
+    android:layout_height="match_parent"
     android:background="@color/dark_gray">
->>>>>>> develop.dh
+
 
     <LinearLayout
         android:id="@+id/am_footer_result_top_ll"
         android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_alignParentTop="true">
-=======
         android:layout_height="@dimen/footer_result_layer_top"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:background="@color/light_gray">
->>>>>>> develop.dh
+
 
         <ImageView
             android:id="@+id/am_toggle_btn_like"
             android:layout_width="wrap_content"
-<<<<<<< HEAD
-            android:layout_height="wrap_content"
-            android:src="@drawable/llike_icon" />
-=======
+
             android:layout_marginLeft="12.5dp"
             android:layout_height="match_parent"
             android:src="@drawable/unllike_icon" />
->>>>>>> develop.dh
+
 
         <TextView
             android:id="@+id/am_tv_like_count"
 
             android:layout_width="wrap_content"
-<<<<<<< HEAD
-            android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:text="0" />
-=======
+
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="0"
@@ -82,7 +67,7 @@ android:layout_marginLeft="5.5dp"
                 android:text="입니다."
                 android:textColor="@color/white"
                 android:textSize="8pt" />
->>>>>>> develop.dh
+
 
     </LinearLayout>
 

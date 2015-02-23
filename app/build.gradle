@@ -26,7 +26,6 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.sothree.slidinguppanel:library:2.0.4'
     compile 'com.github.navasmdc:MaterialDesign:1.+'
-
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.google.code.gson:gson:1.7.2'
     //KAKAO Link

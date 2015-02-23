@@ -45,7 +45,6 @@ public class MapBridge {
         bundle.putString("name", name);
         bundle.putString("address", address);
         msg.setData(bundle);
-
         mHandler.sendMessage(msg);
     }
 

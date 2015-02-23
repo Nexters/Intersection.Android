@@ -1,65 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="match_parent" android:background="@drawable/result_layer_1">
+=======
+    android:layout_height="match_parent"
+
+    android:background="@color/dark_gray">
+>>>>>>> develop.dh
 
     <LinearLayout
-        android:id="@+id/am_tv_first_layout"
+        android:id="@+id/am_footer_result_top_ll"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_alignParentTop="true">
+=======
+        android:layout_height="@dimen/footer_result_layer_top"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:background="@color/light_gray">
+>>>>>>> develop.dh
 
         <ImageView
             android:id="@+id/am_toggle_btn_like"
             android:layout_width="wrap_content"
+<<<<<<< HEAD
             android:layout_height="wrap_content"
             android:src="@drawable/llike_icon" />
+=======
+            android:layout_marginLeft="12.5dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/unllike_icon" />
+>>>>>>> develop.dh
 
         <TextView
             android:id="@+id/am_tv_like_count"
+
             android:layout_width="wrap_content"
+<<<<<<< HEAD
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:text="0" />
+=======
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/am_tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|top"
-            android:text="중간지점은 모란역 입니다."
-            android:textSize="16sp" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="중간지점은"
+                android:textColor="@color/white"
+
+                android:textSize="8pt" />
+
+            <TextView
+                android:id="@+id/am_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+android:layout_marginLeft="5.5dp"
+                android:layout_marginRight="5.5dp"
+                android:gravity="center"
+                android:text="모란역"
+                android:textColor="@color/white"
+                android:textSize="11pt" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|left"
+                android:text="입니다."
+                android:textColor="@color/white"
+                android:textSize="8pt" />
+>>>>>>> develop.dh
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/am_tv_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/am_tv_first_layout"
+        android:layout_height="@dimen/footer_result_layer_middle"
+        android:layout_below="@+id/am_footer_result_top_ll"
         android:gravity="center"
+        android:text="경기도 성남시 분당구"
         android:textAlignment="center"
-        android:text="중간지점은 모란역 입니다."
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_result_layer_bottom"
+        android:layout_below="@+id/am_tv_address"
+        android:background="@color/light_gray"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/am_btn_show_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_transparent"
+            android:src="@drawable/result_layer_slide_button">
+
+        </ImageButton>
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/am_tv_address"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/am_tv_first_layout"
+            android:layout_marginTop="24dp"
+            android:text="중간지점을 결과를 공유해보세요."
+            android:textColor="@color/white"
+            android:textSize="5.5pt"
+             />
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+
+            android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:rowCount="1"
+            android:useDefaultMargins="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparent"
+                    android:src="@drawable/kakaotalk_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="카카오톡"
+                    android:textColor="@color/white"
+                    android:textSize="5.5pt"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparent"
+                    android:src="@drawable/kakaotalk_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="라인"
+                    android:textColor="@color/white"
+                    android:textSize="5.5pt"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparent"
+                    android:src="@drawable/kakaotalk_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="메시지"
+                    android:textColor="@color/white"
+                    android:textSize="5.5pt"/>
+            </LinearLayout>
+
+        </GridLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="33.3dp"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginTop="33dp"
         android:gravity="center">
 
         <Button
             android:id="@+id/am_btn_search_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"></Button>
+            android:text="^"></Button>
 
         <Button
             android:id="@+id/am_btn_search_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/am_btn_search_cancel"
             android:layout_alignBaseline="@+id/am_btn_search_cancel"
+            android:layout_toRightOf="@+id/am_btn_search_cancel"
             android:text="선택"></Button>
     </RelativeLayout>
+
 </RelativeLayout>

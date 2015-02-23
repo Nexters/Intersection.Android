@@ -2,6 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="footer_height">129dp</dimen>
+    <dimen name="footer_height">103.9dp</dimen>
+
     <dimen name="header_height">56dp</dimen>
+    <dimen name="footer_result_layer_top">30.3dp</dimen>
+    <dimen name="footer_result_layer_middle">40.3dp</dimen>
+    <dimen name="footer_result_layer_bottom">33.3dp</dimen>
 </resources>

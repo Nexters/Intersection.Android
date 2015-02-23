@@ -17,9 +17,6 @@ import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-import java.util.List;
-
 
 public class IntroActivity extends Activity {
     private static int INTRO_LOADING_TIME = 2000;
@@ -36,6 +33,7 @@ public class IntroActivity extends Activity {
     }
 
     private void initResource(){
+
         skip();
 //        mHandler = new Handler();
 //        mHandler.postDelayed(new Runnable() {
@@ -43,6 +41,7 @@ public class IntroActivity extends Activity {
 //                endIntro();
 //            }
 //        }, INTRO_LOADING_TIME);
+
     }
 
     private void skip(){
@@ -62,12 +61,12 @@ public class IntroActivity extends Activity {
         addUser();
 
         intent = new Intent(this, MainActivity.class);
-//        if(isVisited)
-//            intent = new Intent(this, MainActivity.class);
-//        else {
-//            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
-//            intent = new Intent(this, StartActivity.class);
-//        }
+        if(isVisited)
+            intent = new Intent(this, MainActivity.class);
+        else {
+            intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
+            intent = new Intent(this, StartActivity.class);
+        }
         startActivity(intent);
         finish();
     }

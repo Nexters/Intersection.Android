@@ -2,6 +2,16 @@
  * Created by BoBinLee on 2015-02-08.
  */
 
+var markerImgs = ["images/pin_1.png", "images/pin_2.png", "images/pin_3.png", "images/pin_4.png", "images/pin_5.png", "images/pin_6.png", "images/pin_7.png", "images/pin_8.png", "images/pin_9.png"];
+var transImgs = ["images/pin_10.png", "images/pin_11.png", "images/pin_12.png"];
+
+// 중심점 이미지
+var centerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
+// 전철 마커 이미지
+// var transMarkerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+
+var chkMarkerImgs = [];
+
 var selectedItem = {
     markers: [],
     area: null,
@@ -21,18 +31,12 @@ var selectedItem = {
         if (selectedItem.center != null)
             selectedItem.center.setMap(null);
 
+        chkMarkerImgs = [];
         this.markers = [];
         this.transMarkers = [];
         selectedItem.center = null;
     }
 };
-
-// 중심점 이미지
-var centerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
-// 전철 마커 이미지
-//var transMarkerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
-//var transMarkerImgUrl = 'http://csssprites.com/results/8f1afc83e782e28e9ac352322a243a2c/result.png';
-var transMarkerImgUrl = './images/result.png';
 
 var areaConfig = {
     strokeWeight: 3, // 선의 두께입니다
@@ -114,15 +118,10 @@ function searchIntersection() {
                     var latLng = new daum.maps.LatLng(threePlaces[i].latitude, threePlaces[i].longitude);
 
                     // 가까운 전철역 이미지 지정
-                    var imageSrc = transMarkerImgUrl,
+                    var imageSrc = transImgs[i],
                     // 마커 이미지 url, 스프라이트 이미지를 씁니다 1, 2, 3, 4... 여러 이미지들이 있는 png
-                        imageSize = new daum.maps.Size(78, 124),  // 마커 이미지의 크기
-                        imgOptions = {
-                            spriteSize: new daum.maps.Size(78, 402), // 스프라이트 이미지의 크기
-                            spriteOrigin: new daum.maps.Point(0, (i * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-                            offset: new daum.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-                        },
-                        markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imgOptions);
+                        imageSize = new daum.maps.Size(21, 33),  // 마커 이미지의 크기
+                        markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, null);
                     var marker = showMarker(latLng, {image: markerImage});
 
                     // 교통 위치 저장
@@ -209,6 +208,8 @@ function showMarkers(markers, map) {
         return;
 
     for (var i = 0; i < markers.length; i++) {
+        if(markers[i].infowindow)
+            markers[i].infowindow.close();
         markers[i].setMap(map);
     }
 }
@@ -279,29 +280,6 @@ function moveLocation(lat, lng) {
     procEventMarker(marker);
 }
 
-// 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places) {
-
-    var el = document.createElement('li'),
-        itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
-            '<div class="info">' +
-            '   <h5>' + places.title + '</h5>';
-
-    if (places.newAddress) {
-        itemStr += '    <span>' + places.newAddress + '</span>' +
-        '   <span class="jibun gray">' + places.address + '</span>';
-    } else {
-        itemStr += '    <span>' + places.address + '</span>';
-    }
-
-    itemStr += '  <span class="tel">' + places.phone + '</span>' +
-    '</div>';
-    el.innerHTML = itemStr;
-    el.className = 'item';
-
-    return el;
-}
-
 // TODO Event
 var isRightClicked = false;
 
@@ -323,8 +301,22 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
 
     //  console.log(duplicateChk);
 
+    var curCount = 1;
+
+    for(; curCount<=markerImgs.length ; curCount += 1){
+        if(chkMarkerImgs.indexOf(curCount) == -1){
+            chkMarkerImgs.push(curCount);
+            break;
+        }
+    }
+
+    var imageSrc = markerImgs[curCount - 1],
+    // 마커 이미지 url, 스프라이트 이미지를 씁니다 1, 2, 3, 4... 여러 이미지들이 있는 png
+        imageSize = new daum.maps.Size(21, 33),  // 마커 이미지의 크기
+        markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, null);
+
     // 클릭한 위도, 경도 정보를 가져옵니다
-    var marker = showMarker(mouseEvent.latLng, {});
+    var marker = showMarker(mouseEvent.latLng, {image: markerImage});
 
     selectedItem.markers.push(marker);
     procEventMarker(marker);
@@ -348,6 +340,7 @@ function procEventMarker(marker){
     var isOpen = false;
     var isFirst = true;
 
+    marker.infowindow = infowindow;
     daum.maps.event.addListener(marker, 'click', function () {
         if (!isOpen){
             infowindow.open(map, marker);
@@ -370,8 +363,10 @@ function procEventMarker(marker){
             $(".iw-delete").click(function () {
                 var index = selectedItem.markers.indexOf(marker);
 
-                if (index > -1)
+                if (index > -1){
                     selectedItem.markers.splice(index, 1);
+                    chkMarkerImgs.splice(index, 1);
+                }
                 hiddenMarker(marker);
                 infowindow.close();
                 infowindow1.close();

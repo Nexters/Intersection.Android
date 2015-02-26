@@ -33,16 +33,22 @@ public class IntroActivity extends Activity {
     }
 
     private void initResource(){
-//        Intent intent = null;
-//        intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
 
-        mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                endIntro();
-            }
-        }, INTRO_LOADING_TIME);
+        skip();
+//        mHandler = new Handler();
+//        mHandler.postDelayed(new Runnable() {
+//            public void run() {
+//                endIntro();
+//            }
+//        }, INTRO_LOADING_TIME);
+
+    }
+
+    private void skip(){
+        Intent intent = null;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void endIntro() {
@@ -52,16 +58,16 @@ public class IntroActivity extends Activity {
         Intent intent = null;
 
         // 유저 등록
-//        addUser();
+        addUser();
 
         intent = new Intent(this, MainActivity.class);
-/*        if(isVisited)
+        if(isVisited)
             intent = new Intent(this, MainActivity.class);
         else {
             intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
             intent = new Intent(this, StartActivity.class);
         }
-   */     startActivity(intent);
+        startActivity(intent);
         finish();
     }
 

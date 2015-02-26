@@ -30,7 +30,7 @@ public class MessageTask {
         } catch (Exception e){
             e.printStackTrace();
         }
-        Log.d("postJson", "" + gson.toJson(reqParam));
+        Log.d("postJson", "url : " + url + " - " + gson.toJson(reqParam));
         asyncClient.post(context, url, jsonParams, "application/json",
                 responseHandler);
     }

@@ -15,6 +15,7 @@ import com.nexters.intersection.intersectionapp.utils.CommonUtils;
 import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -34,13 +35,13 @@ public class IntroActivity extends Activity {
 
     private void initResource(){
 
-        skip();
-//        mHandler = new Handler();
-//        mHandler.postDelayed(new Runnable() {
-//            public void run() {
-//                endIntro();
-//            }
-//        }, INTRO_LOADING_TIME);
+//        skip();
+        mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                endIntro();
+            }
+        }, INTRO_LOADING_TIME);
 
     }
 
@@ -82,6 +83,28 @@ public class IntroActivity extends Activity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(path, "response : " + response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+                Log.d("onFailure", "onFailure : " + statusCode + " - " + responseString);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }

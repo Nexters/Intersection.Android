@@ -276,8 +276,9 @@ function directSearch(searchPlace) {
 function moveLocation(lat, lng) {
     var moveLoc = new daum.maps.LatLng(lat, lng);
     map.panTo(moveLoc);
-    var marker = showMarker(moveLoc, {});
-    procEventMarker(marker);
+    var marker =  new daum.maps.Marker({});
+    marker.setPosition(moveLoc);
+    procEventMarker(moveLoc, marker);
 }
 
 // TODO Event
@@ -288,21 +289,21 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     var eventMarker = new daum.maps.Marker({});
     eventMarker.setPosition(mouseEvent.latLng);
 
-    var duplicateChk = $.grep(selectedItem.markers, function(marker){
+    procEventMarker(mouseEvent.latLng, eventMarker);
+});
 
+function procEventMarker(latLng, eventMarker){
+    var duplicateChk = $.grep(selectedItem.markers, function(marker){
         console.log("m : " + marker.getPosition());
         console.log("m1 : " + eventMarker.getPosition());
-
         return marker.getPosition().getLat() == eventMarker.getPosition().getLat() && marker.getPosition().getLng() == eventMarker.getPosition().getLng();
     });
 
     if(duplicateChk.length >= 1)
         return ;
-
     //  console.log(duplicateChk);
 
     var curCount = 1;
-
     for(; curCount<=markerImgs.length ; curCount += 1){
         if(chkMarkerImgs.indexOf(curCount) == -1){
             chkMarkerImgs.push(curCount);
@@ -316,15 +317,11 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
         markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, null);
 
     // 클릭한 위도, 경도 정보를 가져옵니다
-    var marker = showMarker(mouseEvent.latLng, {image: markerImage});
+    var marker = showMarker(latLng, {image: markerImage});
 
     selectedItem.markers.push(marker);
-    procEventMarker(marker);
-});
 
-function procEventMarker(marker){
    isRightClicked = true;
-
 
   // 선택 지점 취소
     var infowindow = new daum.maps.InfoWindow({
@@ -353,11 +350,9 @@ function procEventMarker(marker){
         $(".iw-delete").parent().parent().children("div").css("background", "none");
         $(".iw-delete").parent().parent().css("border", "none");
 
-
         $(".iw-myLoc").parent().parent().css("background", "none");
         $(".iw-myLoc").parent().parent().children("div").css("background", "none");
         $(".iw-myLoc").parent().parent().css("border", "none");
-
 
         if (isFirst) {
             $(".iw-delete").click(function () {

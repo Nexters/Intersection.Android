@@ -30,7 +30,9 @@ var selectedItem = {
 // 중심점 이미지
 var centerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
 // 전철 마커 이미지
-var transMarkerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+//var transMarkerImgUrl = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+//var transMarkerImgUrl = 'http://csssprites.com/results/8f1afc83e782e28e9ac352322a243a2c/result.png';
+var transMarkerImgUrl = './images/result.png';
 
 var areaConfig = {
     strokeWeight: 3, // 선의 두께입니다
@@ -114,9 +116,9 @@ function searchIntersection() {
                     // 가까운 전철역 이미지 지정
                     var imageSrc = transMarkerImgUrl,
                     // 마커 이미지 url, 스프라이트 이미지를 씁니다 1, 2, 3, 4... 여러 이미지들이 있는 png
-                        imageSize = new daum.maps.Size(36, 37),  // 마커 이미지의 크기
+                        imageSize = new daum.maps.Size(78, 124),  // 마커 이미지의 크기
                         imgOptions = {
-                            spriteSize: new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
+                            spriteSize: new daum.maps.Size(78, 402), // 스프라이트 이미지의 크기
                             spriteOrigin: new daum.maps.Point(0, (i * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
                             offset: new daum.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
                         },
@@ -273,6 +275,7 @@ function directSearch(searchPlace) {
 function moveLocation(lat, lng) {
     var moveLoc = new daum.maps.LatLng(lat, lng);
     ps.panTo(moveLoc);
+    showMarker(moveLoc, {});
 }
 
 // 검색결과 항목을 Element로 반환하는 함수입니다
@@ -325,24 +328,38 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     selectedItem.markers.push(marker);
     isRightClicked = true;
 
+
     // 선택 지점 취소
     var infowindow = new daum.maps.InfoWindow({
         position: marker,
-        content: '<p class="iw-delete"><img style="position: absolute; top: 33px; left: 98px; width: 10px;" src="./images/pin_option_2.png"></p>'
+        content: '<p class="iw-delete"><img style="position: absolute; top: 36px; left: 95px; width: 13px;" src="./images/pin_option_2.png"></p>'
     });
+
+    var infowindow1 =  new daum.maps.InfoWindow({
+        position: marker,
+        content: '<p class="iw-myLoc"><img style="position: absolute; top: 6px; left: 66px; width: 13px;" src="./images/pin_option_1.png"></p>'
+    });
+
     var isOpen = false;
     var isFirst = true;
 
     daum.maps.event.addListener(marker, 'click', function () {
-        if (!isOpen)
+        if (!isOpen){
             infowindow.open(map, marker);
-        else
+            infowindow1.open(map, marker);
+        } else
             infowindow.close();
         isOpen = !isOpen;
 
         $(".iw-delete").parent().parent().css("background", "none");
         $(".iw-delete").parent().parent().children("div").css("background", "none");
         $(".iw-delete").parent().parent().css("border", "none");
+
+
+        $(".iw-myLoc").parent().parent().css("background", "none");
+        $(".iw-myLoc").parent().parent().children("div").css("background", "none");
+        $(".iw-myLoc").parent().parent().css("border", "none");
+
 
         if (isFirst) {
             $(".iw-delete").click(function () {
@@ -352,6 +369,12 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
                     selectedItem.markers.splice(index, 1);
                 hiddenMarker(marker);
                 infowindow.close();
+                infowindow1.close();
+            });
+
+            $(".iw-myLoc").click(function () {
+                // console.log(marker.getPosition());
+                fixMyLocation(marker.getPosition().getLat(), marker.getPosition().getLng());
             });
             isFirst = !isFirst;
         }
@@ -381,8 +404,12 @@ function onScrollChangedCallback() {
     window.DaumApp.onScrollChangedCallback();
 }
 
-function toggleToolbar() {
+function toggleToolbar(){
     window.DaumApp.ToggleToolbar();
+}
+
+function fixMyLocation(lat, lng){
+    window.DaumApp.fixMyLocation(lat, lng);
 }
 
 function getTranslation(name, address) {

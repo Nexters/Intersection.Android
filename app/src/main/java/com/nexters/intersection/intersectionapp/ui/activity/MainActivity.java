@@ -1,8 +1,6 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +33,7 @@ import com.nexters.intersection.intersectionapp.ui.map.MapBridgeType;
 import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.nexters.intersection.intersectionapp.utils.CommonUtils;
+import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.apache.http.Header;
@@ -145,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
         mMyLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.getMyLocation(MainActivity.this, new LocationListener() {
+                /*CommonUtils.getMyLocation(MainActivity.this, new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
                         Log.d("MyLocationListener", "Latitudine = " + location.getLatitude() + "Longitudine = " + location.getLongitude());
@@ -157,7 +156,13 @@ public class MainActivity extends ActionBarActivity {
                     public void onProviderEnabled(String provider) { }
                     @Override
                     public void onProviderDisabled(String provider) { }
-                });
+                });*/
+                IntersactionSession intersactionSession = IntersactionSession.getInstance(MainActivity.this);
+
+                double lat = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT));
+                double lng = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG));
+
+                mapBridge.moveLocation(lat, lng);
             }
         });
 
@@ -273,6 +278,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public void procFixedMyLocation(double lat, double lng){
+        IntersactionSession intersactionSession = IntersactionSession.getInstance(this);
+
+        intersactionSession.putString(IntersactionSession.FIXED_LOCATION_LAT, Double.toString(lat));
+        intersactionSession.putString(IntersactionSession.FIXED_LOCATION_LNG, Double.toString(lng));
+    }
+
+
     // TODO Animate
     public Animation animateTopDown(float height, int duration){
         Animation animation = new TranslateAnimation(0, 0, height, 0);
@@ -338,6 +351,11 @@ public class MainActivity extends ActionBarActivity {
 //            Log.d("type", "type");
 
             switch (mapBridgeType) {
+                case FixedMyLocation :
+                    double lat = msg.getData().getDouble("lat");
+                    double lng = msg.getData().getDouble("lng");
+                    procFixedMyLocation(lat, lng);
+                    break;
                 case ScrollChangedCallback:
                     procScrollChangedCallback();
                     break;

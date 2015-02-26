@@ -26,7 +26,7 @@ public class MapBridge {
     }
 
     public void moveLocation(double lat, double lng){
-        webView.loadUrl("javascript:moveLocation(" + lat + "," + lng + ")");
+        webView.loadUrl("javascript:moveLocation('" + lat + "','" + lng + "')");
     }
 
     public void searchIntersection() {
@@ -67,6 +67,20 @@ public class MapBridge {
         Message msg = new Message();
         Bundle bundle = msg.getData();
         bundle.putSerializable("type", MapBridgeType.ScrollChangedCallback);
+        msg.setData(bundle);
+
+        mHandler.sendMessage(msg);
+    }
+
+    @JavascriptInterface
+    public void fixMyLocation(final double lat, final double lng) {
+        Log.d("test", "fixMyLocation: " + lat + " - " + lng);
+
+        Message msg = new Message();
+        Bundle bundle = msg.getData();
+        bundle.putSerializable("type", MapBridgeType.FixedMyLocation);
+        bundle.putDouble("lat", lat);
+        bundle.putDouble("lng", lng);
         msg.setData(bundle);
 
         mHandler.sendMessage(msg);

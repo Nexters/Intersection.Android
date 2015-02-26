@@ -26,7 +26,7 @@ public class MapBridge {
     }
 
     public void moveLocation(double lat, double lng){
-        webView.loadUrl("javascript:moveLocation('" + lat + "','" + lng + "')");
+        webView.loadUrl("javascript:moveLocation(" + lat + "," + lng + ")");
     }
 
     public void searchIntersection() {

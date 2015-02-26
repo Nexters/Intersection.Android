@@ -274,8 +274,9 @@ function directSearch(searchPlace) {
 // 안드로이드 gps로 좌표받아 내 위치 이동
 function moveLocation(lat, lng) {
     var moveLoc = new daum.maps.LatLng(lat, lng);
-    ps.panTo(moveLoc);
-    showMarker(moveLoc, {});
+    map.panTo(moveLoc);
+    var marker = showMarker(moveLoc, {});
+    procEventMarker(marker);
 }
 
 // 검색결과 항목을 Element로 반환하는 함수입니다
@@ -326,10 +327,14 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     var marker = showMarker(mouseEvent.latLng, {});
 
     selectedItem.markers.push(marker);
-    isRightClicked = true;
+    procEventMarker(marker);
+});
+
+function procEventMarker(marker){
+   isRightClicked = true;
 
 
-    // 선택 지점 취소
+  // 선택 지점 취소
     var infowindow = new daum.maps.InfoWindow({
         position: marker,
         content: '<p class="iw-delete"><img style="position: absolute; top: 36px; left: 95px; width: 13px;" src="./images/pin_option_2.png"></p>'
@@ -379,7 +384,7 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
             isFirst = !isFirst;
         }
     });
-});
+}
 
 // click 이벤트
 daum.maps.event.addListener(map, 'click', function (mouseEvent) {

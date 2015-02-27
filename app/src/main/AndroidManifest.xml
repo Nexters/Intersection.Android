@@ -25,10 +25,12 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.activity.StartActivity"
-            android:label="@string/title_activity_start" />
+            android:label="@string/title_activity_start"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
         android:name=".ui.activity.TestActivity"
         android:label="@string/title_activity_test" >

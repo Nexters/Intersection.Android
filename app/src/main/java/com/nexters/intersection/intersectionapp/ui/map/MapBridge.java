@@ -88,6 +88,7 @@ public class MapBridge {
         mHandler.sendMessage(msg);
     }
 
+
     @JavascriptInterface
     public void test(final String str) {
         Log.d("test", "test: " + str);

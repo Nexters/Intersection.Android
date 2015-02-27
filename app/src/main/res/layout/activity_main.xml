@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        android:text="@string/hello_world"
         sothree:anchorPoint="1"
         sothree:panelHeight="@dimen/footer_height"
         sothree:shadowHeight="4dp">
@@ -24,14 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true"></com.nexters.intersection.intersectionapp.ui.view.WebViewObserver>
-
+                android:layout_alignParentTop="true"/>
+            <!--Header Layout-->
             <LinearLayout
                 android:id="@+id/am_header_ll"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:translationZ="100dp"
                 android:layout_alignParentTop="true">
 
                 <ImageButton
@@ -96,8 +94,9 @@
                     android:background="#00ff0000"
                     android:scaleType="fitXY"
                     android:src="@drawable/button05_setting_bar" />
-            </LinearLayout>
+            </LinearLayout><!--End Header -->
 
+            <!--Start FooterLayout -->
             <RelativeLayout
                 android:id="@+id/am_footer_rl"
                 android:layout_width="match_parent"
@@ -115,24 +114,16 @@
 
                 </ImageButton>
 
-                <!--<com.gc.materialdesign.views.ButtonFloat-->
-                <!--android:id="@+id/am_btn_search"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginBottom="20dp"-->
-                <!--materialdesign:animate="true"-->
-                <!--materialdesign:iconDrawable="@drawable/ic_action_search" />-->
-            </RelativeLayout>
+
+            </RelativeLayout> <!-- End FooterLayout -->
 
         </RelativeLayout>
-
+        <!--Start Result FooterLayout-->
         <include
             android:id="@+id/am_result_footer_rl"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            layout="@layout/layout_footer"></include>
+            layout="@layout/layout_footer"/>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </RelativeLayout>

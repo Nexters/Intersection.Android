@@ -360,11 +360,11 @@ public class MainActivity extends ActionBarActivity {
     public void procSendMarkerCnt(int cnt) {
 
         if(cnt >= 2) {
-            mBtnSearch.setImageResource(R.drawable.button_intersection_r);
-            mBtnSearch.setEnabled(true);
+            mBtnIntersection.setImageResource(R.drawable.button_intersection_r);
+            mBtnIntersection.setEnabled(true);
         }else {
-            mBtnSearch.setImageResource(R.drawable.button_intersection);
-            mBtnSearch.setEnabled(false);
+            mBtnIntersection.setImageResource(R.drawable.button_intersection);
+            mBtnIntersection.setEnabled(false);
         }
 
     }

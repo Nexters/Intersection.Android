@@ -47,6 +47,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends ActionBarActivity {
+    private class State {
+        public static final int NOT_SHOWING_RESULT =1;
+        public static final int  SHOWING_RESULT =2;
+        int currentState;
+        public void setCurrentState (int state){
+            this.currentState=state;
+        }
+        public int getCurrentState(){
+                return this.currentState;
+        }
+    }
+    private State state = new State();
     private int mMinFooterTranslation = 0;
     private int mMinHeaderTranslation = 0;
     private float mFooterHeight = 0f;
@@ -75,6 +87,8 @@ public class MainActivity extends ActionBarActivity {
     private SearchView searchView;
     private ImageButton mBtnSearch, mBtnSetting;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +99,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onBackPressed() {
-        backPressCloseHandler.onBackPressed();
+        if(state.getCurrentState() == State.NOT_SHOWING_RESULT) {
+            backPressCloseHandler.onBackPressed();
+        } else {
+            mapBridge.reset();
+            mLayout.hidePanel();
+            mFooter.setVisibility(View.VISIBLE);
+            state.setCurrentState(State.NOT_SHOWING_RESULT);
+        }
     }
 
 
@@ -114,6 +135,7 @@ public class MainActivity extends ActionBarActivity {
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         mLayout.hidePanel();
+
 
         mLikeCnt = (TextView) mFooterResult.findViewById(R.id.am_tv_like_count);
         mTransName = (TextView) mFooterResult.findViewById(R.id.am_tv_name);
@@ -179,7 +201,6 @@ public class MainActivity extends ActionBarActivity {
                     public void onProviderDisabled(String provider) { }
                 });*/
                 IntersactionSession intersactionSession = IntersactionSession.getInstance(MainActivity.this);
-
                 double lat = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT));
                 double lng = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG));
 
@@ -191,6 +212,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mapBridge.searchIntersection();
+                state.setCurrentState(State.SHOWING_RESULT);
             }
         });
 
@@ -320,6 +342,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+
     // TODO Animate
     public Animation animateTopDown(float height, int duration){
         Animation animation = new TranslateAnimation(0, 0, height, 0);
@@ -436,6 +459,7 @@ public class MainActivity extends ActionBarActivity {
         i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
         try {
             startActivity(Intent.createChooser(i, "문의하기"));
+            
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }

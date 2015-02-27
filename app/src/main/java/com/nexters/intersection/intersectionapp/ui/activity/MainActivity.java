@@ -1,5 +1,6 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -280,6 +282,22 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    showInputMethod(view.findFocus());
+                }
+            }
+
+            private void showInputMethod(View view) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.showSoftInput(view, 0);
+                }
+            }
+        });
         mBtnSetting.setOnClickListener( new View.OnClickListener(){
 
             @Override
@@ -367,7 +385,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-
 
     // TODO Animate
     public Animation animateTopDown(float height, int duration){

@@ -175,18 +175,6 @@ public class MainActivity extends ActionBarActivity {
         searchIcon.setVisibility(View.GONE);
         searchView.onActionViewExpanded();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
         if(searchPlate !=null ){
             searchPlate.setBackgroundColor(Color.WHITE);
 
@@ -293,6 +281,7 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+
         mBtnSetting.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -174,6 +174,19 @@ public class MainActivity extends ActionBarActivity {
 
         searchIcon.setVisibility(View.GONE);
         searchView.onActionViewExpanded();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         if(searchPlate !=null ){
             searchPlate.setBackgroundColor(Color.WHITE);
 
@@ -280,19 +293,19 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
-        mBtnSetting.setOnClickListener( new View.OnClickListener(){
+        mBtnSetting.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 procToggleToolbar();
             }
         });
-        mBtnSearch.setOnClickListener( new View.OnClickListener(){
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 ImageView mSubmitBtn;
-                int submitBtnID = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null,null);
-                mSubmitBtn  = (ImageView)searchView.findViewById(submitBtnID);
+                int submitBtnID = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null, null);
+                mSubmitBtn = (ImageView) searchView.findViewById(submitBtnID);
                 mSubmitBtn.callOnClick();
             }
         });
@@ -303,7 +316,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        SearchView searchView = (SearchView) menu.findItem(R.id.am_searchview).getActionView();
 
 //        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
 

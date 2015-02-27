@@ -418,17 +418,15 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, VerActivity.class);
         startActivity(intent);
     }
+
     public void Email(View view) {
         Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
+        i.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");//gmail패키지 포함
+        i.setType("plain/text");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jjungda@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
         i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
-        try {
-            startActivity(Intent.createChooser(i, "문의하기"));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }
+        startActivity(i);
     }
 
     /* tmp */

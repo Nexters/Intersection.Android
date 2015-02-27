@@ -129,25 +129,40 @@ public class MainActivity extends ActionBarActivity {
                         Log.d("MyLocationListener", "Latitudine = " + location.getLatitude() + "Longitudine = " + location.getLongitude());
                         mapBridge.moveLocation(location.getLatitude(), location.getLongitude());
                     }
+
                     @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) { }
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                    }
+
                     @Override
-                    public void onProviderEnabled(String provider) { }
+                    public void onProviderEnabled(String provider) {
+                    }
+
                     @Override
-                    public void onProviderDisabled(String provider) { }
+                    public void onProviderDisabled(String provider) {
+                    }
                 });*/
+
                 IntersactionSession intersactionSession = IntersactionSession.getInstance(MainActivity.this);
 
-                double lat = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT));
-                double lng = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG));
 
-                mapBridge.moveLocation(lat, lng);
+                if(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT) != null
+                        && intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG) != null) {
+                    double lat = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT));
+                    double lng = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG));
+
+                    mapBridge.moveLocation(lat, lng);
+                }
+
+
+
             }
         });
 
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mapBridge.searchIntersection();
             }
         });

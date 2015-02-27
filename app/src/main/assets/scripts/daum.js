@@ -272,13 +272,18 @@ function directSearch(searchPlace) {
     ps.keywordSearch(searchPlace, placesSearch);
 }
 
+// 내위치 마커
+var imageSrc = "./images/pin_13.png",
+    imageSize = new daum.maps.Size(21,33),
+    markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, null);
+
 // 안드로이드 gps로 좌표받아 내 위치 이동
 function moveLocation(lat, lng) {
     var moveLoc = new daum.maps.LatLng(lat, lng);
     map.panTo(moveLoc);
-    var marker =  new daum.maps.Marker({});
-    marker.setPosition(moveLoc);
-    procEventMarker(moveLoc, marker);
+    var marker = showMarker(moveLoc, {image: markerImage});
+    selectedItem.markers.push(marker);
+    procEventMarker(marker);
 }
 
 // TODO Event
@@ -289,21 +294,21 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     var eventMarker = new daum.maps.Marker({});
     eventMarker.setPosition(mouseEvent.latLng);
 
-    procEventMarker(mouseEvent.latLng, eventMarker);
-});
-
-function procEventMarker(latLng, eventMarker){
     var duplicateChk = $.grep(selectedItem.markers, function(marker){
+
         console.log("m : " + marker.getPosition());
         console.log("m1 : " + eventMarker.getPosition());
+
         return marker.getPosition().getLat() == eventMarker.getPosition().getLat() && marker.getPosition().getLng() == eventMarker.getPosition().getLng();
     });
 
     if(duplicateChk.length >= 1)
         return ;
+
     //  console.log(duplicateChk);
 
     var curCount = 1;
+
     for(; curCount<=markerImgs.length ; curCount += 1){
         if(chkMarkerImgs.indexOf(curCount) == -1){
             chkMarkerImgs.push(curCount);
@@ -317,21 +322,25 @@ function procEventMarker(latLng, eventMarker){
         markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, null);
 
     // 클릭한 위도, 경도 정보를 가져옵니다
-    var marker = showMarker(latLng, {image: markerImage});
+    var marker = showMarker(mouseEvent.latLng, {image: markerImage});
 
     selectedItem.markers.push(marker);
+    procEventMarker(marker);
+});
 
+function procEventMarker(marker){
    isRightClicked = true;
+
 
   // 선택 지점 취소
     var infowindow = new daum.maps.InfoWindow({
         position: marker,
-        content: '<p class="iw-delete"><img style="position: absolute; top: 36px; left: 95px; width: 13px;" src="./images/pin_option_2.png"></p>'
+        content: '<p class="iw-delete"><img style="position: absolute; top: 36px; left: 92px; width: 15px;" src="./images/pin_option_2.png"></p>'
     });
 
     var infowindow1 =  new daum.maps.InfoWindow({
         position: marker,
-        content: '<p class="iw-myLoc"><img style="position: absolute; top: 6px; left: 66px; width: 13px;" src="./images/pin_option_1.png"></p>'
+        content: '<p class="iw-myLoc"><img style="position: absolute; top: 12px; left: 68px; width: 15px;" src="./images/pin_option_1.png"></p>'
     });
 
     var isOpen = false;
@@ -342,17 +351,22 @@ function procEventMarker(latLng, eventMarker){
         if (!isOpen){
             infowindow.open(map, marker);
             infowindow1.open(map, marker);
-        } else
+        } else {
             infowindow.close();
+            infowindow1.close();
+        }
+
         isOpen = !isOpen;
 
         $(".iw-delete").parent().parent().css("background", "none");
         $(".iw-delete").parent().parent().children("div").css("background", "none");
         $(".iw-delete").parent().parent().css("border", "none");
 
+
         $(".iw-myLoc").parent().parent().css("background", "none");
         $(".iw-myLoc").parent().parent().children("div").css("background", "none");
         $(".iw-myLoc").parent().parent().css("border", "none");
+
 
         if (isFirst) {
             $(".iw-delete").click(function () {
@@ -368,7 +382,6 @@ function procEventMarker(latLng, eventMarker){
             });
 
             $(".iw-myLoc").click(function () {
-                // console.log(marker.getPosition());
                 fixMyLocation(marker.getPosition().getLat(), marker.getPosition().getLng());
             });
             isFirst = !isFirst;

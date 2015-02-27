@@ -35,6 +35,10 @@ var selectedItem = {
         this.markers = [];
         this.transMarkers = [];
         selectedItem.center = null;
+
+        sendMarkerCnt();
+
+        closeFooter();
     }
 };
 
@@ -210,6 +214,10 @@ function showMarkers(markers, map) {
     for (var i = 0; i < markers.length; i++) {
         if(markers[i].infowindow)
             markers[i].infowindow.close();
+
+        if(markers[i].infowindow1)
+            markers[i].infowindow1.close();
+
         markers[i].setMap(map);
     }
 }
@@ -282,7 +290,7 @@ function moveLocation(lat, lng) {
     var moveLoc = new daum.maps.LatLng(lat, lng);
     map.panTo(moveLoc);
     var marker = showMarker(moveLoc, {image: markerImage});
-    selectedItem.markers.push(marker);
+
     procEventMarker(marker);
 }
 
@@ -324,12 +332,15 @@ daum.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
     // 클릭한 위도, 경도 정보를 가져옵니다
     var marker = showMarker(mouseEvent.latLng, {image: markerImage});
 
-    selectedItem.markers.push(marker);
+
     procEventMarker(marker);
 });
 
 function procEventMarker(marker){
    isRightClicked = true;
+   selectedItem.markers.push(marker);
+
+   sendMarkerCnt();
 
 
   // 선택 지점 취소
@@ -347,6 +358,7 @@ function procEventMarker(marker){
     var isFirst = true;
 
     marker.infowindow = infowindow;
+    marker.infowindow1 = infowindow1;
     daum.maps.event.addListener(marker, 'click', function () {
         if (!isOpen){
             infowindow.open(map, marker);
@@ -379,10 +391,13 @@ function procEventMarker(marker){
                 hiddenMarker(marker);
                 infowindow.close();
                 infowindow1.close();
+
+                sendMarkerCnt();
             });
 
             $(".iw-myLoc").click(function () {
                 fixMyLocation(marker.getPosition().getLat(), marker.getPosition().getLng());
+                toast("내 위치가 고정되었습니다");
             });
             isFirst = !isFirst;
         }
@@ -431,4 +446,16 @@ function receiveCode(json) {
 
 function receiveAndroidId(id) {
     androidId = id;
+}
+
+function sendMarkerCnt() {
+    window.DaumApp.sendMarkerCnt(selectedItem.markers.length);
+}
+
+function toast(msg) {
+    window.DaumApp.toast(msg);
+}
+
+function closeFooter() {
+    window.DaumApp.closeFooter();
 }

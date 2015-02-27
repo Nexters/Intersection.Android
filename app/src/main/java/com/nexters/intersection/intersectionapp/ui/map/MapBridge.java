@@ -37,6 +37,10 @@ public class MapBridge {
         webView.loadUrl("javascript:directSearch('" + search + "')");
     }
 
+    public void reset(){
+        webView.loadUrl("javascript:selectedItem.drawClear()");
+    }
+
     @JavascriptInterface
     public void getTranslation(final String name, final String address) {
         Message msg = new Message();

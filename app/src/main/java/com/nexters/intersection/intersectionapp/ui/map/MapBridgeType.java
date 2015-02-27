@@ -6,5 +6,5 @@ import java.io.Serializable;
  * Created by BoBinLee on 2015-02-20.
  */
 public enum MapBridgeType implements Serializable{
-    ScrollChangedCallback, ToggleToolbar, Translation, FixedMyLocation;
+    ScrollChangedCallback, ToggleToolbar, Translation, FixedMyLocation, SendMarkerCnt, Toast, CloseFooter;
 }

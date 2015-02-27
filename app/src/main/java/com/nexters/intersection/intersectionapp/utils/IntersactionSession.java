@@ -68,7 +68,7 @@ public class IntersactionSession {
     }
 
     public String getString(String key){
-        return mPref.getString(key, "0");
+        return mPref.getString(key, null);
     }
 
     public boolean getBoolean(String key){

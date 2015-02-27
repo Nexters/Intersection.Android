@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/daehyun/AndroidStudioProjects/Intersection.Android/viewpager/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/daehyun/AndroidStudioProjects/Intersection.Android/viewpager/src/debug/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="G:\dev\Android Studio\workspaces\Me\Intersection.Android\viewpager\src\main\assets"/></dataSet><dataSet config="debug"><source path="G:\dev\Android Studio\workspaces\Me\Intersection.Android\viewpager\src\debug\assets"/></dataSet></merger>

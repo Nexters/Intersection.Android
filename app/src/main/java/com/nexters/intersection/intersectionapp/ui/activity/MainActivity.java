@@ -145,8 +145,9 @@ public class MainActivity extends ActionBarActivity {
         mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
         mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
 
-
+        procSendMarkerCnt(0);
     }
+    
     public void initActionBar() {
 
 
@@ -357,6 +358,17 @@ public class MainActivity extends ActionBarActivity {
         intersactionSession.putString(IntersactionSession.FIXED_LOCATION_LNG, Double.toString(lng));
     }
 
+    public void procSendMarkerCnt(int cnt) {
+
+        if(cnt >= 2) {
+            mBtnSearch.setImageResource(R.drawable.button_intersection_r);
+            mBtnSearch.setEnabled(true);
+        }else {
+            mBtnSearch.setImageResource(R.drawable.button_intersection);
+            mBtnSearch.setEnabled(false);
+        }
+
+    }
 
 
     // TODO Animate
@@ -438,6 +450,18 @@ public class MainActivity extends ActionBarActivity {
 //            Log.d("type", "type");
 
             switch (mapBridgeType) {
+                case CloseFooter:
+                    mLayout.hidePanel();
+                    mFooter.setVisibility(View.VISIBLE);
+                    break;
+                case Toast :
+                    String message = msg.getData().getString("msg");
+                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                    break;
+                case SendMarkerCnt :
+                    int cnt = msg.getData().getInt("cnt");
+                    procSendMarkerCnt(cnt);
+                    break;
                 case FixedMyLocation :
                     double lat = msg.getData().getDouble("lat");
                     double lng = msg.getData().getDouble("lng");

@@ -88,6 +88,40 @@ public class MapBridge {
         mHandler.sendMessage(msg);
     }
 
+    @JavascriptInterface
+    public void sendMarkerCnt(final int cnt) {
+        Log.d("test", "cnt : "+ cnt);
+        Message msg = new Message();
+        Bundle bundle = msg.getData();
+        bundle.putSerializable("type", MapBridgeType.SendMarkerCnt);
+        bundle.putInt("cnt", cnt);
+        msg.setData(bundle);
+
+        mHandler.sendMessage(msg);
+    }
+
+    @JavascriptInterface
+    public void toast(final String message) {
+        Message msg = new Message();
+        Bundle bundle = msg.getData();
+        bundle.putSerializable("type", MapBridgeType.Toast);
+        bundle.putString("msg", message);
+        msg.setData(bundle);
+
+        mHandler.sendMessage(msg);
+
+    }
+
+    @JavascriptInterface
+    public void closeFooter() {
+        Message msg = new Message();
+        Bundle bundle = msg.getData();
+        bundle.putSerializable("type", MapBridgeType.CloseFooter);
+        msg.setData(bundle);
+
+        mHandler.sendMessage(msg);
+
+    }
 
     @JavascriptInterface
     public void test(final String str) {

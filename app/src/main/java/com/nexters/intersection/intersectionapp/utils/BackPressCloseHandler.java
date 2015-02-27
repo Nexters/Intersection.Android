@@ -28,8 +28,6 @@ public class BackPressCloseHandler {
             activity.finish();
             toast.cancel();
         }
-
-
     }
 
     public void showGuide() {

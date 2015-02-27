@@ -36,6 +36,7 @@ public class MapBridge {
     public void directSearch(String search){
         webView.loadUrl("javascript:directSearch('" + search + "')");
     }
+
     public void reset(){
         webView.loadUrl("javascript:selectedItem.drawClear()");
     }

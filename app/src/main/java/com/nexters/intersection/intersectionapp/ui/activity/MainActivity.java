@@ -1,12 +1,15 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +54,8 @@ public class MainActivity extends ActionBarActivity {
 
     public MapBridge mapBridge;
     public WebViewObserver webView;
-    private ImageButton mBtnSearch;
+    private ImageButton mBtnIntersection;
+
     private SlidingUpPanelLayout mLayout;
 
     private RelativeLayout mFooterResult;
@@ -68,21 +72,22 @@ public class MainActivity extends ActionBarActivity {
     private BackPressCloseHandler backPressCloseHandler;
 
     // action bar search
-    private TextView mSearchText;
+    private SearchView searchView;
+    private ImageButton mBtnSearch, mBtnSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActionBar actionBar = getSupportActionBar();
-
         initResource();
+        initActionBar();
         initEvent();
     }
 
     public void onBackPressed() {
         backPressCloseHandler.onBackPressed();
     }
+
 
     public void initResource() {
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -105,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
 
-        mBtnSearch = (ImageButton)findViewById(R.id.am_btn_search);
+        mBtnIntersection = (ImageButton)findViewById(R.id.am_btn_Intersection);
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         mLayout.hidePanel();
@@ -117,8 +122,45 @@ public class MainActivity extends ActionBarActivity {
 
         mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
         mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
-    }
 
+
+    }
+    public void initActionBar() {
+
+
+        ActionBar actionbar = getSupportActionBar();
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View header = mInflater.inflate(R.layout.actionbar_custom, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.NO_GRAVITY
+        );
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setCustomView(header, params);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        searchView = (SearchView) findViewById(R.id.am_searchview);
+
+        int searchPlateID = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null,null);
+        View searchPlate = searchView.findViewById(searchPlateID);
+        int searchIconId = searchView.getContext().getResources().
+                getIdentifier("android:id/search_mag_icon", null, null);
+        ImageView searchIcon = (ImageView)searchView.findViewById(searchIconId);
+
+        searchIcon.setVisibility(View.GONE);
+        searchView.onActionViewExpanded();
+        if(searchPlate !=null ){
+            searchPlate.setBackgroundColor(Color.WHITE);
+
+        }
+        //Button Resource initialize
+        mBtnSetting = (ImageButton)header.findViewById(R.id.am_btn_top_bar_setting);
+        mBtnSearch = (ImageButton)header.findViewById(R.id.am_btn_search);
+    }
     public void initEvent() {
         mMyLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +187,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+        mBtnIntersection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mapBridge.searchIntersection();
@@ -190,18 +232,6 @@ public class MainActivity extends ActionBarActivity {
             public void onPageFinished(WebView view, String url) {
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getSupportActionBar().setTitle(R.string.app_name);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
-//        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -213,18 +243,39 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+        mBtnSetting.setOnClickListener( new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                procToggleToolbar();
+            }
+        });
+        mBtnSearch.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                ImageView mSubmitBtn;
+                int submitBtnID = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null,null);
+                mSubmitBtn  = (ImageView)searchView.findViewById(submitBtnID);
+                mSubmitBtn.callOnClick();
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
+//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+//        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
 
-        switch (itemId){
-            case R.id.action_settings :
-                procToggleToolbar();
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 

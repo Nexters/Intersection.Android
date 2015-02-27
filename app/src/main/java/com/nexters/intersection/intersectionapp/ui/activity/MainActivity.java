@@ -33,7 +33,6 @@ import com.nexters.intersection.intersectionapp.model.Translation;
 import com.nexters.intersection.intersectionapp.thread.MessageTask;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridge;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridgeType;
-import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.nexters.intersection.intersectionapp.utils.CommonUtils;
 import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
@@ -65,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
     private float mHeaderHeight = 0f;
 
     public MapBridge mapBridge;
-    public WebViewObserver webView;
+    public WebView webView;
     private ImageButton mBtnIntersection;
 
     private SlidingUpPanelLayout mLayout;
@@ -116,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
         mFooterHeight = getResources().getDimension(R.dimen.footer_height);
         mHeaderHeight = getResources().getDimension(R.dimen.header_height);
 
-        webView = (WebViewObserver) findViewById(R.id.web_view);
+        webView = (WebView) findViewById(R.id.web_view);
         mapBridge = new MapBridge(webView, targetHandler);
         mFooter = (RelativeLayout) findViewById(R.id.am_footer_rl);
 

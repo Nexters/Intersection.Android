@@ -11,14 +11,14 @@
         android:gravity="bottom"
         sothree:anchorPoint="1"
         sothree:panelHeight="@dimen/footer_height"
-        sothree:shadowHeight="4dp">
-
+        sothree:shadowHeight="0dp">
+        <!--MAIN CONTENT-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <com.nexters.intersection.intersectionapp.ui.view.WebViewObserver
+            <WebView
                 android:id="@+id/web_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -118,12 +118,14 @@
             </RelativeLayout> <!-- End FooterLayout -->
 
         </RelativeLayout>
-        <!--Start Result FooterLayout-->
+        <!--END MAIN CONTENT-->
+        <!--Sliding Panel Layout start-->
         <include
             android:id="@+id/am_result_footer_rl"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             layout="@layout/layout_footer"/>
+        <!-- END Sliding Panel-->
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </RelativeLayout>

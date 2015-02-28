@@ -233,6 +233,7 @@ function searchAddrFromCoords(coords, callback) {
     geocoder.coord2addr(coords, callback);
 }
 
+
 // 검색으로 지도 이동하기 위한 함수입니다
 function placesSearch(status, data, pagination) {
     if (status === daum.maps.services.Status.OK) {
@@ -250,6 +251,7 @@ function placesSearch(status, data, pagination) {
         var moveLatLon = new daum.maps.LatLng((south.getLat() + north.getLat()) / 2, (south.getLng() + north.getLng()) / 2);
 
         map.panTo(moveLatLon);
+        map.setLevel(6);
     }
 }
 

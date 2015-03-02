@@ -1,6 +1,5 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
-import android.content.Context;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -46,6 +44,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -86,7 +85,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     private TextView mLikeCnt, mTransName, mTransAddress;
-    private Button mSelectedTransCancel, mSelectedTransDone;
     private ImageView mToggleLike;
 
     private RelativeLayout mFooter;
@@ -154,9 +152,6 @@ public class MainActivity extends ActionBarActivity {
         mTransName = (TextView) mFooterResult.findViewById(R.id.am_tv_name);
         mTransAddress = (TextView) mFooterResult.findViewById(R.id.am_tv_address);
         mToggleLike = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
-
-        mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
-        mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
 
         procSendMarkerCnt(0);
 
@@ -265,19 +260,6 @@ public class MainActivity extends ActionBarActivity {
                         getTranslation(translation.getName(), null);
                     }
                 });
-            }
-        });
-        mSelectedTransDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mSelectedTransCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLayout.hidePanel();
-                mFooter.setVisibility(View.VISIBLE);
             }
         });
 
@@ -421,6 +403,13 @@ public class MainActivity extends ActionBarActivity {
         hashMap.put("phoneId", CommonUtils.getAndroidId(this));
 
         MessageTask.postJson(path, this, hashMap, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Log.d("getTranslation", "this.getString(R.string.trans_like_list)");
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);

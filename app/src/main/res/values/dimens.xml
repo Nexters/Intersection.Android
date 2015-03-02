@@ -5,7 +5,7 @@
     <dimen name="footer_height">103.9dp</dimen>
 
     <dimen name="header_height">56dp</dimen>
-    <dimen name="footer_result_layer_top">30.3dp</dimen>
+    <dimen name="footer_result_layer_top">50.3dp</dimen>
     <dimen name="footer_result_layer_middle">40.3dp</dimen>
-    <dimen name="footer_result_layer_bottom">33.3dp</dimen>
+    <dimen name="footer_result_layer_bottom">43.3dp</dimen>
 </resources>

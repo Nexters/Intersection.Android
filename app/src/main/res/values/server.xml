@@ -2,7 +2,7 @@
 <resources>
     <string name="base_uri">http://map-server.herokuapp.com</string>
     <!--<string name="base_uri">http://localhost:8080/map</string>-->
-    <!--<string name="base_uri">http://192.168.0.5:8080/map</string>-->
+    <!--<string name="base_uri">http://192.168.219.105:8080/map</string>-->
 
     <!-- user -->
     <string name="user_add">/user/proc/add.map</string>

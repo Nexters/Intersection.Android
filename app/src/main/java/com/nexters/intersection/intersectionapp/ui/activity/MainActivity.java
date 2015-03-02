@@ -190,9 +190,9 @@ public class MainActivity extends ActionBarActivity {
 
         searchIcon.setVisibility(View.GONE);
         searchView.onActionViewExpanded();
+
         if (searchPlate != null) {
             searchPlate.setBackgroundColor(Color.WHITE);
-
         }
         //Button Resource initialize
         mBtnSetting = (ImageButton) header.findViewById(R.id.am_btn_top_bar_setting);
@@ -305,7 +305,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        mBtnSetting.setOnClickListener( new View.OnClickListener(){
+        mBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 procToggleToolbar();
@@ -322,12 +322,11 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //Social Share Button
-        mBtnKakaoTalk.setOnClickListener( new View.OnClickListener() {
+        mBtnKakaoTalk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 ShareToKakaoTalk();
             }
-
         });
     }
 
@@ -336,7 +335,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        SearchView searchView = (SearchView) menu.findItem(R.id.am_searchview).getActionView();
 
 //        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
 
@@ -558,14 +557,14 @@ public class MainActivity extends ActionBarActivity {
     private void sendKakaoTalkLink(String text, String link) {
         try {
 
-            kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text +" 입니다.");
+            kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text + " 입니다.");
 
             // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
 //            kakaoTalkLinkMessageBuilder.addWebLink("다음 지도로 이동하기", link);
 //                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton));
 //                // 웹싸이트에 등록한 "http://www.kakao.com"으로 이동.
 //
-                kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
+            kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
 //
 //                kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
             kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);

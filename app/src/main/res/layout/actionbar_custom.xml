@@ -10,10 +10,10 @@
         android:layout_marginTop="22.67dp"
 
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView" />
+        android:id="@+id/logo_top_bar" />
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/setting_button_top_bar"
         android:contentDescription="setting_button"
 
@@ -21,9 +21,9 @@
         android:id="@+id/am_btn_top_bar_setting"
         android:layout_above="@+id/am_searchview"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="22dp"
-        android:layout_marginEnd="22dp" />
+        android:layout_alignBottom="@id/logo_top_bar"
+        android:layout_marginRight="4.3dp"
+        android:layout_marginBottom="-8.83dp" />
 
     <SearchView
         android:layout_width="300.3dp"
@@ -34,7 +34,7 @@
         android:queryHint="지하철역을 입력해주세요."
         android:background="@android:drawable/screen_background_dark_transparent"
         android:icon="@android:color/transparent"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/logo_top_bar"
         android:id="@+id/am_searchview"/>
     <ImageButton
         android:layout_width="39.3dp"

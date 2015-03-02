@@ -1,6 +1,7 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,13 +30,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.kakao.KakaoLink;
+import com.kakao.KakaoParameterException;
+import com.kakao.KakaoTalkLinkMessageBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nexters.intersection.intersectionapp.R;
 import com.nexters.intersection.intersectionapp.model.Translation;
 import com.nexters.intersection.intersectionapp.thread.MessageTask;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridge;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridgeType;
-import com.nexters.intersection.intersectionapp.ui.view.WebViewObserver;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.nexters.intersection.intersectionapp.utils.CommonUtils;
 import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
@@ -49,17 +52,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends ActionBarActivity {
+    public static final String DAUM_MAP_URL = "http://map.daum.net/link/search/";
+    public static final String COMMA_SEP = ",";
+
     private class State {
-        public static final int NOT_SHOWING_RESULT =1;
-        public static final int  SHOWING_RESULT =2;
+        public static final int NOT_SHOWING_RESULT = 1;
+        public static final int SHOWING_RESULT = 2;
         int currentState;
-        public void setCurrentState (int state){
-            this.currentState=state;
+
+        public void setCurrentState(int state) {
+            this.currentState = state;
         }
-        public int getCurrentState(){
-                return this.currentState;
+
+        public int getCurrentState() {
+            return this.currentState;
         }
     }
+
     private State state = new State();
     private int mMinFooterTranslation = 0;
     private int mMinHeaderTranslation = 0;
@@ -67,12 +76,15 @@ public class MainActivity extends ActionBarActivity {
     private float mHeaderHeight = 0f;
 
     public MapBridge mapBridge;
-    public WebViewObserver webView;
+    public WebView webView;
     private ImageButton mBtnIntersection;
 
     private SlidingUpPanelLayout mLayout;
 
     private RelativeLayout mFooterResult;
+    private ImageButton mBtnKakaoTalk;
+
+
     private TextView mLikeCnt, mTransName, mTransAddress;
     private Button mSelectedTransCancel, mSelectedTransDone;
     private ImageView mToggleLike;
@@ -90,7 +102,6 @@ public class MainActivity extends ActionBarActivity {
     private ImageButton mBtnSearch, mBtnSetting;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onBackPressed() {
-        if(state.getCurrentState() == State.NOT_SHOWING_RESULT) {
+        if (state.getCurrentState() == State.NOT_SHOWING_RESULT) {
             backPressCloseHandler.onBackPressed();
         } else {
             mapBridge.reset();
@@ -118,7 +129,7 @@ public class MainActivity extends ActionBarActivity {
         mFooterHeight = getResources().getDimension(R.dimen.footer_height);
         mHeaderHeight = getResources().getDimension(R.dimen.header_height);
 
-        webView = (WebViewObserver) findViewById(R.id.web_view);
+        webView = (WebView) findViewById(R.id.web_view);
         mapBridge = new MapBridge(webView, targetHandler);
         mFooter = (RelativeLayout) findViewById(R.id.am_footer_rl);
 
@@ -133,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
 
-        mBtnIntersection = (ImageButton)findViewById(R.id.am_btn_Intersection);
+        mBtnIntersection = (ImageButton) findViewById(R.id.am_btn_Intersection);
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         mLayout.hidePanel();
@@ -148,8 +159,11 @@ public class MainActivity extends ActionBarActivity {
         mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
 
         procSendMarkerCnt(0);
+
+        mBtnKakaoTalk = (ImageButton) mFooterResult.findViewById(R.id.img_btn_kakatalk);
+
     }
-    
+
     public void initActionBar() {
         ActionBar actionbar = getSupportActionBar();
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -168,22 +182,23 @@ public class MainActivity extends ActionBarActivity {
 
         searchView = (SearchView) findViewById(R.id.am_searchview);
 
-        int searchPlateID = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null,null);
+        int searchPlateID = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchView.findViewById(searchPlateID);
         int searchIconId = searchView.getContext().getResources().
                 getIdentifier("android:id/search_mag_icon", null, null);
-        ImageView searchIcon = (ImageView)searchView.findViewById(searchIconId);
+        ImageView searchIcon = (ImageView) searchView.findViewById(searchIconId);
 
         searchIcon.setVisibility(View.GONE);
         searchView.onActionViewExpanded();
-        if(searchPlate !=null ){
+        if (searchPlate != null) {
             searchPlate.setBackgroundColor(Color.WHITE);
 
         }
         //Button Resource initialize
-        mBtnSetting = (ImageButton)header.findViewById(R.id.am_btn_top_bar_setting);
-        mBtnSearch = (ImageButton)header.findViewById(R.id.am_btn_search);
+        mBtnSetting = (ImageButton) header.findViewById(R.id.am_btn_top_bar_setting);
+        mBtnSearch = (ImageButton) header.findViewById(R.id.am_btn_search);
     }
+
     public void initEvent() {
         mMyLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,14 +226,13 @@ public class MainActivity extends ActionBarActivity {
                 IntersactionSession intersactionSession = IntersactionSession.getInstance(MainActivity.this);
 
 
-                if(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT) != null
+                if (intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT) != null
                         && intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG) != null) {
                     double lat = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT));
                     double lng = Double.parseDouble(intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG));
 
                     mapBridge.moveLocation(lat, lng);
                 }
-
 
 
             }
@@ -276,6 +290,7 @@ public class MainActivity extends ActionBarActivity {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mapBridge.directSearch(query);
@@ -286,33 +301,33 @@ public class MainActivity extends ActionBarActivity {
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    showInputMethod(view.findFocus());
-                }
-            }
 
-            private void showInputMethod(View view) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.showSoftInput(view, 0);
-                }
             }
         });
-        mBtnSetting.setOnClickListener( new View.OnClickListener(){
 
+        mBtnSetting.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 procToggleToolbar();
             }
         });
-        mBtnSearch.setOnClickListener( new View.OnClickListener(){
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 ImageView mSubmitBtn;
-                int submitBtnID = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null,null);
-                mSubmitBtn  = (ImageView)searchView.findViewById(submitBtnID);
+                int submitBtnID = searchView.getContext().getResources().getIdentifier("android:id/search_go_btn", null, null);
+                mSubmitBtn = (ImageView) searchView.findViewById(submitBtnID);
                 mSubmitBtn.callOnClick();
             }
+        });
+
+        //Social Share Button
+        mBtnKakaoTalk.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                ShareToKakaoTalk();
+            }
+
         });
     }
 
@@ -367,7 +382,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void procFixedMyLocation(double lat, double lng){
+    public void procFixedMyLocation(double lat, double lng) {
         IntersactionSession intersactionSession = IntersactionSession.getInstance(this);
 
         intersactionSession.putString(IntersactionSession.FIXED_LOCATION_LAT, Double.toString(lat));
@@ -376,10 +391,10 @@ public class MainActivity extends ActionBarActivity {
 
     public void procSendMarkerCnt(int cnt) {
 
-        if(cnt >= 2) {
+        if (cnt >= 2) {
             mBtnIntersection.setImageResource(R.drawable.button_intersection_r);
             mBtnIntersection.setEnabled(true);
-        }else {
+        } else {
             mBtnIntersection.setImageResource(R.drawable.button_intersection);
             mBtnIntersection.setEnabled(false);
         }
@@ -387,7 +402,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     // TODO Animate
-    public Animation animateTopDown(float height, int duration){
+    public Animation animateTopDown(float height, int duration) {
         Animation animation = new TranslateAnimation(0, 0, height, 0);
         animation.setDuration(duration);
         return animation;
@@ -426,12 +441,12 @@ public class MainActivity extends ActionBarActivity {
                     Log.d("getTranslation", translation.toString());
 
                     preTranslation = (Translation) mFooterResult.getTag(mFooterResult.getId());
-                    if(preTranslation != null)
+                    if (preTranslation != null)
                         translation.setAddress(preTranslation.getAddress());
-                    if(address != null)
+                    if (address != null)
                         translation.setAddress(address);
 
-                    if(translation.getLikeStatus())
+                    if (translation.getLikeStatus())
                         likeSrc = R.drawable.llike_icon_2;
                     else
                         likeSrc = R.drawable.llike_icon;
@@ -450,7 +465,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.d("post Json","failure");
+                Log.d("post Json", "failure");
             }
         });
     }
@@ -469,15 +484,15 @@ public class MainActivity extends ActionBarActivity {
                     mLayout.hidePanel();
                     mFooter.setVisibility(View.VISIBLE);
                     break;
-                case Toast :
+                case Toast:
                     String message = msg.getData().getString("msg");
                     Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                     break;
-                case SendMarkerCnt :
+                case SendMarkerCnt:
                     int cnt = msg.getData().getInt("cnt");
                     procSendMarkerCnt(cnt);
                     break;
-                case FixedMyLocation :
+                case FixedMyLocation:
                     double lat = msg.getData().getDouble("lat");
                     double lng = msg.getData().getDouble("lng");
                     procFixedMyLocation(lat, lng);
@@ -502,6 +517,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
+
     public void Verinfo(View view) {
         Intent intent = new Intent(this, VerActivity.class);
         startActivity(intent);
@@ -511,11 +527,60 @@ public class MainActivity extends ActionBarActivity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");//gmail패키지 포함
         i.setType("plain/text");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jjungda@gmail.com"});
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"jjungda@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
         i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
 
         startActivity(i);
+    }
+
+    KakaoLink kakaoLink;
+    KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
+
+    //TODO Social Share
+
+    public void ShareToKakaoTalk() {
+        Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+        String url = DAUM_MAP_URL + translation.getName();
+        String place_name = translation.getName();
+
+
+        try {
+            kakaoLink = KakaoLink.getKakaoLink(this);
+            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+            sendKakaoTalkLink(place_name, url);
+            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+        } catch (KakaoParameterException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendKakaoTalkLink(String text, String link) {
+        try {
+
+            kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text +" 입니다.");
+
+            // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
+//            kakaoTalkLinkMessageBuilder.addWebLink("다음 지도로 이동하기", link);
+//                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton));
+//                // 웹싸이트에 등록한 "http://www.kakao.com"으로 이동.
+//
+                kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
+//
+//                kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
+            kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
+        } catch (KakaoParameterException e) {
+            alert(e.getMessage());
+        }
+    }
+
+    private void alert(String message) {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.app_name)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create().show();
     }
 
     /* tmp */

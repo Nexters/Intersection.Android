@@ -26,6 +26,7 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
+                <data android:scheme="@string/kakao_scheme" android:host="@string/kakaolink_host" />
         <activity
             android:name=".ui.activity.StartActivity"
             android:label="@string/title_activity_start" />
@@ -37,6 +38,7 @@
             android:name=".ui.activity.VerActivity"
             android:label="@string/title_activity_test" >
         </activity>
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/kakao_app_key"/>
     </application>
 
 </manifest>

@@ -297,11 +297,7 @@ public class MainActivity extends ActionBarActivity {
         mBtnMsg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
-                String place_name = translation.getName();
-                String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
-
-                procEmail(new String[]{}, "", text);
+                ShareToEmail();
             }
         });
     }
@@ -523,22 +519,6 @@ public class MainActivity extends ActionBarActivity {
     KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
 
     //TODO Social Share
-    public void ShareToKakaoTalk() {
-        Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
-        String url = DAUM_MAP_URL + translation.getName();
-        String place_name = translation.getName();
-        String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
-
-        try {
-            kakaoLink = KakaoLink.getKakaoLink(this);
-            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
-            sendKakaoTalkLink(text, url);
-            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
-        } catch (KakaoParameterException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void ShareToBand() {
 
         Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
@@ -566,10 +546,25 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void ShareToKakaoTalk() {
+        Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+        String url = DAUM_MAP_URL + translation.getName();
+        String place_name = translation.getName();
+        String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
+
+        try {
+            kakaoLink = KakaoLink.getKakaoLink(this);
+            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+            sendKakaoTalkLink(text, url);
+            kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+        } catch (KakaoParameterException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void sendKakaoTalkLink(String text, String link) {
         try {
             kakaoTalkLinkMessageBuilder.addText(text);
-            kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text + " 입니다.");
             // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
 //            kakaoTalkLinkMessageBuilder.addWebLink("다음 지도로 이동하기", link);
 //                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton));
@@ -582,6 +577,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public void ShareToEmail(){
+        Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+        String place_name = translation.getName();
+        String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
+
+        procEmail(new String[]{}, "", text);
+    }
+
     private void alert(String message) {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -590,24 +593,4 @@ public class MainActivity extends ActionBarActivity {
                 .setPositiveButton(android.R.string.ok, null)
                 .create().show();
     }
-
-    /* tmp */
-  /*  public void onClick(View view) {
-        int mMinHeaderTranslation = 0;
-        float mHeaderHeight = getResources().getDimension(R.dimen.header_height);
-
-        switch (view.getId()) {
-            case R.id.am_btn_search_cancel:
-                mLayout.hidePanel();
-                mFooter.setVisibility(View.VISIBLE);
-                break;
-            default:
-                if (mHeader.getTranslationY() < 0) { //Header가 숨겨져 잇다면
-                    mHeader.setTranslationY(mMinHeaderTranslation);
-                } else {
-                    mHeader.setTranslationY(-mHeaderHeight);
-                }
-                break;
-        }
-    }*/
 }

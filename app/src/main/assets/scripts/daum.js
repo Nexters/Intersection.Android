@@ -43,19 +43,18 @@ var selectedItem = {
 };
 
 var areaConfig = {
-    strokeWeight: 3, // 선의 두께입니다
-    strokeColor: '#32cd32', // 선의 색깔입니다
-    strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeWeight: 0, // 선의 두께입니다
+    strokeColor: '#FBF7E4', // 선의 색깔입니다
+    strokeOpacity: 0.6, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
     strokeStyle: 'longdash', // 선의 스타일입니다
-    fillColor: '#90ee90', // 채우기 색깔입니다
-    fillOpacity: 0.7, // 채우기 불투명도 입니다
+    fillColor: '#FBF7E4', // 채우기 색깔입니다
+    fillOpacity: 0.6, // 채우기 불투명도 입니다
     zIndex: -10
 };
 
 function searchIntersection() {
     var center = {lat: 0, lng: 0};
     var centerLatLng = null;
-    var maxDistance = 0;
 
     // 초기화
     if (selectedItem.area != null)
@@ -81,8 +80,10 @@ function searchIntersection() {
 
     selectedItem.center = showMarker(centerLatLng, {image: markerImage});
     // 중심점
-//        console.log("center : " + center.lat + ", " + center.lng);
-
+    // console.log("center : " + center.lat + ", " + center.lng);
+    map.panTo(centerLatLng);
+    map.setLevel(6);
+    
     // 중심 주소 찾아내기
     searchAddrFromCoords(centerLatLng, function (status, result) {
         if (status === daum.maps.services.Status.OK) {
@@ -117,7 +118,7 @@ function searchIntersection() {
                     }
                 }
 
-                // show Tran
+                // show Trans
                 for (var i = 0; i < threePlaces.length; i++) {
                     var latLng = new daum.maps.LatLng(threePlaces[i].latitude, threePlaces[i].longitude);
 
@@ -248,9 +249,9 @@ function placesSearch(status, data, pagination) {
         var south = bounds.getSouthWest();
         var north = bounds.getNorthEast();
 
-        var moveLatLon = new daum.maps.LatLng((south.getLat() + north.getLat()) / 2, (south.getLng() + north.getLng()) / 2);
+        var moveLatLng = new daum.maps.LatLng((south.getLat() + north.getLat()) / 2, (south.getLng() + north.getLng()) / 2);
 
-        map.panTo(moveLatLon);
+        map.panTo(moveLatLng);
         map.setLevel(6);
     }
 }

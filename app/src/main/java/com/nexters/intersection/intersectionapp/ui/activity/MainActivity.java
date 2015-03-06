@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
         mFooterResult = (RelativeLayout) findViewById(R.id.am_result_footer_rl);
 
         if (webView != null) {
-            webView.loadUrl("file:///android_asset/daum1.html");
+            webView.loadUrl("file:///android_asset/map.html");
             webView.getSettings().setJavaScriptEnabled(true);
         }
         webView.addJavascriptInterface(mapBridge, "DaumApp");
@@ -168,7 +168,6 @@ public class MainActivity extends ActionBarActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.NO_GRAVITY
         );
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);

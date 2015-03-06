@@ -102,8 +102,7 @@
                 android:id="@+id/am_footer_rl"
                 android:layout_width="match_parent"
                 android:layout_height="129dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentBottom="true">
                 <ImageButton
                     android:id="@+id/am_btn_Intersection"
                     android:layout_width="50dp"

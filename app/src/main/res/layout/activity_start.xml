@@ -8,12 +8,11 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true" />
+        android:layout_height="match_parent" />
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_transparent"
         android:layout_alignParentBottom="true"

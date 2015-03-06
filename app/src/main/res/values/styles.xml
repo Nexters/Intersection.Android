@@ -4,40 +4,44 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--Customize your theme here.-->
-        <item name= "android:actionBarStyle">
+        <item name="android:actionBarStyle">
             @style/ActionbarTheme
         </item>
-        <item name = "actionBarStyle">
+        <item name="actionBarStyle">
             @style/ActionbarTheme
         </item>
-        <item name ="toolbarStyle">
+        <item name="toolbarStyle">
             @style/NoneToolbar
         </item>
     </style>
-    <style name="ActionbarTheme" >
-        <item name="android:height"> 100dp </item>
-        <item name="height"> 100dp </item>
+
+    <style name="ActionbarTheme">
+        <item name="android:height">100dp</item>
+        <item name="height">100dp</item>
         <item name="android:layout_margin">0dp</item>
         <item name="android:padding">0dp</item>
         <item name="android:background">#000000</item>
     </style>
+
     <style name="NoneToolbar">
         <item name="contentInsetStart">0dp</item>
     </style>
     <!--<style name="StyledIndicators" parent="@android:style/Theme.Light">-->
-        <!--<item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>-->
-        <!--&lt;!&ndash;<item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item>&ndash;&gt;-->
+    <!--<item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>-->
+    <!--&lt;!&ndash;<item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item>&ndash;&gt;-->
     <!--</style>-->
 
-    <!--<style name="CustomCirclePageIndicator">-->
-        <!--&lt;!&ndash;<item name="fillColor">#FF888888</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="strokeColor">#FF000000</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="strokeWidth">2dp</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="radius">10dp</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="centered">true</item>&ndash;&gt;-->
-    <!--</style>-->
+    <!--
+        <style name="CustomCirclePageIndicator">
+            <item name="fillColor">#FF888888</item>
+            <item name="strokeColor">#FF000000</item>
+            <item name="strokeWidth">2dp</item>
+            <item name="radius">10dp</item>
+            <item name="centered">true</item>
+        </style>
+    -->
 
 </resources>

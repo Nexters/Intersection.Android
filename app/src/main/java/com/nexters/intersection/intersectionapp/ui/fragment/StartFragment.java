@@ -11,11 +11,12 @@ import android.widget.ImageView;
 
 import com.nexters.intersection.intersectionapp.R;
 import com.nexters.intersection.intersectionapp.ui.activity.MainActivity;
+import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
 
 public final class StartFragment extends Fragment {
     private static final String KEY_CONTENT = "StartFragment:Location";
     private int location = 0;
-
+    private boolean isVisited = false;
     public static StartFragment newInstance(int location) {
         StartFragment fragment = new StartFragment();
         fragment.location = location;
@@ -35,8 +36,11 @@ public final class StartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vw = inflater.inflate(R.layout.fragment_start, null);
+        final IntersactionSession intersactionSession = IntersactionSession.getInstance(vw.getContext());
+
         ImageView img = (ImageView)vw.findViewById(R.id.img_menu);
         ImageButton nextBtn = (ImageButton) vw.findViewById(R.id.btn_next);
+
         switch(location){
             case 0:
                 vw = inflater.inflate(R.layout.activity_intro, null);
@@ -56,9 +60,12 @@ public final class StartFragment extends Fragment {
                 nextBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        isVisited = intersactionSession.getBoolean(IntersactionSession.IS_VISITED);
+                        intersactionSession.putBoolean(IntersactionSession.IS_VISITED, true);
 
-                        getActivity().startActivity(intent);
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        if(!isVisited)
+                            getActivity().startActivity(intent);
                         getActivity().finish();
                     }
                 });

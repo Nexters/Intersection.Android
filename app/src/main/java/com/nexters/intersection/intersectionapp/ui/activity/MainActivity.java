@@ -46,6 +46,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -88,7 +89,9 @@ public class MainActivity extends ActionBarActivity {
     private ImageButton mBtnKakaoTalk, mBtnBand;
 
     private TextView mLikeCnt, mTransName, mTransAddress;
+
 //    private Button mSelectedTransCancel, mSelectedTransDone;
+
     private ImageView mToggleLike;
 
     private RelativeLayout mFooter;
@@ -157,8 +160,10 @@ public class MainActivity extends ActionBarActivity {
         mTransAddress = (TextView) mFooterResult.findViewById(R.id.am_tv_address);
         mToggleLike = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
 
+
 //        mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
 //        mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
+
 
         procSendMarkerCnt(0);
 
@@ -194,9 +199,7 @@ public class MainActivity extends ActionBarActivity {
         searchView.onActionViewExpanded();
 
         if (searchPlate != null) {
-
             searchPlate.setBackgroundColor(Color.WHITE);
-
         }
         //Button Resource initialize
         mBtnSetting = (ImageButton) header.findViewById(R.id.am_btn_top_bar_setting);
@@ -271,6 +274,7 @@ public class MainActivity extends ActionBarActivity {
                 });
             }
         });
+
 //        mSelectedTransDone.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -284,6 +288,7 @@ public class MainActivity extends ActionBarActivity {
 //                mFooter.setVisibility(View.VISIBLE);
 //            }
 //        });
+
 
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
@@ -302,8 +307,16 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        mBtnSetting.setOnClickListener(new View.OnClickListener() {
 
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+
+            }
+        });
+
+
+        mBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 procToggleToolbar();
@@ -325,7 +338,6 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 ShareToKakaoTalk();
             }
-
         });
         mBtnBand.setOnClickListener(new View.OnClickListener(){
 
@@ -406,7 +418,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-
     // TODO Animate
     public Animation animateTopDown(float height, int duration) {
         Animation animation = new TranslateAnimation(0, 0, height, 0);
@@ -428,6 +439,13 @@ public class MainActivity extends ActionBarActivity {
         hashMap.put("phoneId", CommonUtils.getAndroidId(this));
 
         MessageTask.postJson(path, this, hashMap, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Log.d("getTranslation", "this.getString(R.string.trans_like_list)");
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
@@ -592,18 +610,14 @@ public class MainActivity extends ActionBarActivity {
 
     private void sendKakaoTalkLink(String text, String link) {
         try {
-
             kakaoTalkLinkMessageBuilder.addText(text);
-
+            kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text + " 입니다.");
             // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
 //            kakaoTalkLinkMessageBuilder.addWebLink("다음 지도로 이동하기", link);
 //                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton));
 //                // 웹싸이트에 등록한 "http://www.kakao.com"으로 이동.
-//
-            kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
 
-//
-//                kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
+            kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
             kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
         } catch (KakaoParameterException e) {
             alert(e.getMessage());

@@ -14,10 +14,12 @@
         android:layout_marginTop="133.3dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/ai_iv_logo"
         android:src="@drawable/logo_splash"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:layout_below="@id/ai_iv_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp" />

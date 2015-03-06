@@ -25,10 +25,14 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
+
+
+            android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateHidden"/>
         <data
             android:scheme="@string/kakao_scheme"
             android:host="@string/kakaolink_host" />
+
 
         <activity
             android:name=".ui.activity.StartActivity"

@@ -2,7 +2,9 @@ package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +48,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,10 +84,14 @@ public class MainActivity extends ActionBarActivity {
     private SlidingUpPanelLayout mLayout;
 
     private RelativeLayout mFooterResult;
-    private ImageButton mBtnKakaoTalk;
 
+    // Social Share Button
+    private ImageButton mBtnKakaoTalk, mBtnBand;
 
     private TextView mLikeCnt, mTransName, mTransAddress;
+
+//    private Button mSelectedTransCancel, mSelectedTransDone;
+
     private ImageView mToggleLike;
 
     private RelativeLayout mFooter;
@@ -153,10 +160,15 @@ public class MainActivity extends ActionBarActivity {
         mTransAddress = (TextView) mFooterResult.findViewById(R.id.am_tv_address);
         mToggleLike = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
 
+
+//        mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
+//        mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
+
+
         procSendMarkerCnt(0);
 
-        mBtnKakaoTalk = (ImageButton) mFooterResult.findViewById(R.id.img_btn_kakatalk);
-
+        mBtnKakaoTalk = (ImageButton) mFooterResult.findViewById(R.id.img_btn_kakaotalk);
+        mBtnBand = (ImageButton) mFooterResult.findViewById(R.id.img_btn_band);
     }
 
     public void initActionBar() {
@@ -262,6 +274,21 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+//        mSelectedTransDone.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        mSelectedTransCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLayout.hidePanel();
+//                mFooter.setVisibility(View.VISIBLE);
+//            }
+//        });
+
+
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
             }
@@ -279,12 +306,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
 
             }
         });
+
 
         mBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,6 +336,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 ShareToKakaoTalk();
+            }
+        });
+        mBtnBand.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                ShareToBand();
             }
         });
     }
@@ -530,31 +566,57 @@ public class MainActivity extends ActionBarActivity {
         Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
         String url = DAUM_MAP_URL + translation.getName();
         String place_name = translation.getName();
-
+        String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
 
         try {
             kakaoLink = KakaoLink.getKakaoLink(this);
             kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
-            sendKakaoTalkLink(place_name, url);
+            sendKakaoTalkLink(text, url);
             kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
         } catch (KakaoParameterException e) {
             e.printStackTrace();
         }
     }
 
+    public void ShareToBand() {
+
+        Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+        String url = DAUM_MAP_URL + translation.getName();
+        String place_name = translation.getName();
+        String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
+
+        PackageManager manager = this.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage("com.nhn.android.band");
+        if (i == null) {
+            // 밴드앱 설치되지 않은 경우 구글 플레이 설치페이지로 이동
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.nhn.android.band"));
+            this.startActivity(intent);
+            return;
+        }
+        String encodedText = null;
+        try {
+            encodedText = URLEncoder.encode(text, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+// "%ED%85%8C%EC%8A%A4%ED%8A%B8+%EB%B3%B8%EB%AC%B8"; // 글 본문 (utf-8 urlencoded)
+        Uri uri = Uri.parse("bandapp://create/post?text=" + encodedText + "&route=" + "www.naver.com");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+
+
+    }
+
     private void sendKakaoTalkLink(String text, String link) {
         try {
-
+            kakaoTalkLinkMessageBuilder.addText(text);
             kakaoTalkLinkMessageBuilder.addText("너와 나의 중간지점은?\n" + text + " 입니다.");
-
             // 웹싸이트에 등록한 "http://www.kakao.com"을 overwrite함. overwrite는 같은 도메인만 가능.
 //            kakaoTalkLinkMessageBuilder.addWebLink("다음 지도로 이동하기", link);
 //                kakaoTalkLinkMessageBuilder.addAppButton(getString(R.string.kakaolink_appbutton));
 //                // 웹싸이트에 등록한 "http://www.kakao.com"으로 이동.
-//
+
             kakaoTalkLinkMessageBuilder.addWebButton("다음 지도로 이동하기", link);
-//
-//                kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
             kakaoLink.sendMessage(kakaoTalkLinkMessageBuilder.build(), this);
         } catch (KakaoParameterException e) {
             alert(e.getMessage());

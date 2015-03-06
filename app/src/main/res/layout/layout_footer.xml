@@ -126,7 +126,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/img_btn_kakatalk"
+                    android:id="@+id/img_btn_kakaotalk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_transparent"
@@ -150,17 +150,18 @@
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/img_btn_band"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_transparent"
-                    android:src="@drawable/kakaotalk_icon" />
+                    android:src="@drawable/band_icon"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:text="라인"
+                    android:text="밴드"
                     android:textColor="@color/white"
                     android:textSize="5.5pt" />
             </LinearLayout>
@@ -188,4 +189,5 @@
 
         </GridLayout>
     </LinearLayout>
+
 </RelativeLayout>

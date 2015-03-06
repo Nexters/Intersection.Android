@@ -135,7 +135,7 @@ android:layout_marginLeft="5.5dp"
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/img_btn_kakatalk"
+                    android:id="@+id/img_btn_kakaotalk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_transparent"
@@ -159,17 +159,18 @@ android:layout_marginLeft="5.5dp"
                 android:orientation="vertical">
 
                 <ImageButton
+                    android:id="@+id/img_btn_band"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_transparent"
-                    android:src="@drawable/kakaotalk_icon" />
+                    android:src="@drawable/band_icon"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:text="라인"
+                    android:text="밴드"
                     android:textColor="@color/white"
                     android:textSize="5.5pt"/>
             </LinearLayout>
@@ -198,28 +199,28 @@ android:layout_marginLeft="5.5dp"
         </GridLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="33.3dp"
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="33.3dp"-->
 
-        android:layout_alignParentBottom="true"
+        <!--android:layout_alignParentBottom="true"-->
 
-        android:layout_marginTop="33dp"
-        android:gravity="center">
+        <!--android:layout_marginTop="33dp"-->
+        <!--android:gravity="center">-->
 
-        <Button
-            android:id="@+id/am_btn_search_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="^"></Button>
+        <!--<Button-->
+            <!--android:id="@+id/am_btn_search_cancel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="^"></Button>-->
 
-        <Button
-            android:id="@+id/am_btn_search_done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/am_btn_search_cancel"
-            android:layout_toRightOf="@+id/am_btn_search_cancel"
-            android:text="선택"></Button>
-    </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/am_btn_search_done"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/am_btn_search_cancel"-->
+            <!--android:layout_toRightOf="@+id/am_btn_search_cancel"-->
+            <!--android:text="선택"></Button>-->
+    <!--</RelativeLayout>-->
 
 </RelativeLayout>

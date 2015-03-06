@@ -44,10 +44,10 @@ var selectedItem = {
 
 var areaConfig = {
     strokeWeight: 3, // 선의 두께입니다
-    strokeColor: '#39DE2A', // 선의 색깔입니다
+    strokeColor: '#32cd32', // 선의 색깔입니다
     strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
     strokeStyle: 'longdash', // 선의 스타일입니다
-    fillColor: '#A2FF99', // 채우기 색깔입니다
+    fillColor: '#90ee90', // 채우기 색깔입니다
     fillOpacity: 0.7, // 채우기 불투명도 입니다
     zIndex: -10
 };
@@ -233,6 +233,7 @@ function searchAddrFromCoords(coords, callback) {
     geocoder.coord2addr(coords, callback);
 }
 
+
 // 검색으로 지도 이동하기 위한 함수입니다
 function placesSearch(status, data, pagination) {
     if (status === daum.maps.services.Status.OK) {
@@ -250,6 +251,7 @@ function placesSearch(status, data, pagination) {
         var moveLatLon = new daum.maps.LatLng((south.getLat() + north.getLat()) / 2, (south.getLng() + north.getLng()) / 2);
 
         map.panTo(moveLatLon);
+        map.setLevel(6);
     }
 }
 

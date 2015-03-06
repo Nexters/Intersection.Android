@@ -86,16 +86,12 @@ public class MainActivity extends ActionBarActivity {
     private RelativeLayout mFooterResult;
 
     // Social Share Button
-    private ImageButton mBtnKakaoTalk, mBtnBand;
+    private ImageButton mBtnKakaoTalk, mBtnBand, mBtnMsg;
 
     private TextView mLikeCnt, mTransName, mTransAddress;
-
-//    private Button mSelectedTransCancel, mSelectedTransDone;
-
     private ImageView mToggleLike;
 
     private RelativeLayout mFooter;
-
     private LinearLayout mHeader;
     private Button mTutorial, mVersion, mContact;
     private ImageButton mMyLoc;
@@ -105,7 +101,6 @@ public class MainActivity extends ActionBarActivity {
     // action bar search
     private SearchView searchView;
     private ImageButton mBtnSearch, mBtnSetting;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
             state.setCurrentState(State.NOT_SHOWING_RESULT);
         }
     }
-
 
     public void initResource() {
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -154,21 +148,16 @@ public class MainActivity extends ActionBarActivity {
 
         mLayout.hidePanel();
 
-
         mLikeCnt = (TextView) mFooterResult.findViewById(R.id.am_tv_like_count);
         mTransName = (TextView) mFooterResult.findViewById(R.id.am_tv_name);
         mTransAddress = (TextView) mFooterResult.findViewById(R.id.am_tv_address);
         mToggleLike = (ImageView) mFooterResult.findViewById(R.id.am_toggle_btn_like);
 
-
-//        mSelectedTransDone = (Button) mFooterResult.findViewById(R.id.am_btn_search_done);
-//        mSelectedTransCancel = (Button) mFooterResult.findViewById(R.id.am_btn_search_cancel);
-
-
         procSendMarkerCnt(0);
 
         mBtnKakaoTalk = (ImageButton) mFooterResult.findViewById(R.id.img_btn_kakaotalk);
         mBtnBand = (ImageButton) mFooterResult.findViewById(R.id.img_btn_band);
+        mBtnMsg = (ImageButton) mFooterResult.findViewById(R.id.img_btn_msg);
     }
 
     public void initActionBar() {
@@ -209,28 +198,7 @@ public class MainActivity extends ActionBarActivity {
         mMyLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*CommonUtils.getMyLocation(MainActivity.this, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        Log.d("MyLocationListener", "Latitudine = " + location.getLatitude() + "Longitudine = " + location.getLongitude());
-                        mapBridge.moveLocation(location.getLatitude(), location.getLongitude());
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-                    }
-                });*/
-
                 IntersactionSession intersactionSession = IntersactionSession.getInstance(MainActivity.this);
-
 
                 if (intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LAT) != null
                         && intersactionSession.getString(IntersactionSession.FIXED_LOCATION_LNG) != null) {
@@ -239,8 +207,6 @@ public class MainActivity extends ActionBarActivity {
 
                     mapBridge.moveLocation(lat, lng);
                 }
-
-
             }
         });
 
@@ -274,25 +240,11 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        mSelectedTransDone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        mSelectedTransCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mLayout.hidePanel();
-//                mFooter.setVisibility(View.VISIBLE);
-//            }
-//        });
-
-
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -306,14 +258,12 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
 
             }
         });
-
 
         mBtnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,14 +289,22 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         mBtnBand.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 ShareToBand();
             }
         });
-    }
+        mBtnMsg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
+                String place_name = translation.getName();
+                String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
 
+                procEmail(new String[]{}, "", text);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -547,12 +505,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void Email(View view) {
+       procEmail(new String[]{"jjungda@gmail.com"}, "", "");
+    }
+
+    public void procEmail(String[] emails, String title, String content){
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");//gmail패키지 포함
         i.setType("plain/text");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"jjungda@gmail.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, "제목을 입력하세요");
-        i.putExtra(Intent.EXTRA_TEXT, "내용을 입력하세요");
+        i.putExtra(Intent.EXTRA_EMAIL, emails);
+        i.putExtra(Intent.EXTRA_SUBJECT, title);
+        i.putExtra(Intent.EXTRA_TEXT, content);
 
         startActivity(i);
     }
@@ -561,7 +523,6 @@ public class MainActivity extends ActionBarActivity {
     KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder;
 
     //TODO Social Share
-
     public void ShareToKakaoTalk() {
         Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
         String url = DAUM_MAP_URL + translation.getName();
@@ -603,8 +564,6 @@ public class MainActivity extends ActionBarActivity {
         Uri uri = Uri.parse("bandapp://create/post?text=" + encodedText + "&route=" + "www.naver.com");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
-
-
     }
 
     private void sendKakaoTalkLink(String text, String link) {

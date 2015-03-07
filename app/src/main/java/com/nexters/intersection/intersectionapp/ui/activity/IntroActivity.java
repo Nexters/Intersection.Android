@@ -79,7 +79,7 @@ public class IntroActivity extends Activity {
         MessageTask.postJson(path, this, user, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d(path, "response : " + response.toString());
+//                Log.d(path, "response : " + response.toString());
             }
         });
     }

@@ -1,6 +1,8 @@
 package com.nexters.intersection.intersectionapp.ui.activity;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -157,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
 
         mBtnKakaoTalk = (ImageButton) mFooterResult.findViewById(R.id.img_btn_kakaotalk);
         mBtnBand = (ImageButton) mFooterResult.findViewById(R.id.img_btn_band);
-        mBtnMsg = (ImageButton) mFooterResult.findViewById(R.id.img_btn_msg);
+        mBtnMsg = (ImageButton) mFooterResult.findViewById(R.id.img_btn_clip);
     }
 
     public void initActionBar() {
@@ -233,7 +235,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        Log.d("mToggleLike", translation.getName());
+//                        Log.d("mToggleLike", translation.getName());
                         getTranslation(translation.getName(), null);
                     }
                 });
@@ -297,7 +299,7 @@ public class MainActivity extends ActionBarActivity {
         mBtnMsg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ShareToEmail();
+                ShareToClip();
             }
         });
     }
@@ -408,6 +410,9 @@ public class MainActivity extends ActionBarActivity {
                 if (response.length() > 0) {
                     try {
                         String json = response.getJSONObject(0).toString();
+
+                        Log.d("getTranslation", "getTranslation : " + json);
+
                         translation = (new Gson()).fromJson(response.getJSONObject(0).toString(), Translation.class);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -415,7 +420,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 if (translation != null) {
-                    Log.d("getTranslation", translation.toString());
+//                    Log.d("getTranslation", translation.toString());
 
                     preTranslation = (Translation) mFooterResult.getTag(mFooterResult.getId());
                     if (preTranslation != null)
@@ -577,12 +582,17 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void ShareToEmail(){
+    public void ShareToClip(){
         Translation translation = (Translation) mFooterResult.getTag(mFooterResult.getId());
         String place_name = translation.getName();
         String text = "너와 나의 중간지점은?\n" + place_name + " 입니다.";
 
-        procEmail(new String[]{}, "", text);
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", "" + text);
+        clipboard.setPrimaryClip(clip);
+
+        alert("클립보드에 저장되었습니다.");
+//        procEmail(new String[]{}, "", text);
     }
 
     private void alert(String message) {

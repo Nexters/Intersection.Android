@@ -128,7 +128,7 @@
                 <ImageButton
                     android:id="@+id/img_btn_kakaotalk"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_transparent"
                     android:src="@drawable/kakaotalk_icon" />
 
@@ -152,7 +152,7 @@
                 <ImageButton
                     android:id="@+id/img_btn_band"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_transparent"
                     android:src="@drawable/band_icon"/>
 
@@ -172,18 +172,18 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/img_btn_msg"
+                    android:id="@+id/img_btn_clip"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="@drawable/background_transparent"
-                    android:src="@drawable/message_icon" />
+                    android:src="@drawable/clip_icon" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:text="메시지"
+                    android:text="클립보드"
                     android:textColor="@color/white"
                     android:textSize="5.5pt" />
             </LinearLayout>

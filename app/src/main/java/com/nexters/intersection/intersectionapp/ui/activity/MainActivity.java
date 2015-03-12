@@ -215,7 +215,6 @@ public class MainActivity extends ActionBarActivity {
         mBtnIntersection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mapBridge.searchIntersection();
                 state.setCurrentState(State.SHOWING_RESULT);
             }
@@ -243,8 +242,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-            }
+            public void onPageFinished(WebView view, String url) { }
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -256,15 +254,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mapBridge.directSearch(query);
+                searchView.clearFocus();
+//                procToggleToolbar();
                 return true;
             }
         });
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-
-            }
+            public void onFocusChange(View view, boolean hasFocus) { }
         });
 
         mBtnSetting.setOnClickListener(new View.OnClickListener() {
@@ -306,18 +304,14 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
 //        SearchView searchView = (SearchView) menu.findItem(R.id.am_searchview).getActionView();
-
 //        searchView.setBackgroundResource(R.drawable.search_button_top_bar);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -362,7 +356,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void procSendMarkerCnt(int cnt) {
-
         if (cnt >= 2) {
             mBtnIntersection.setImageResource(R.drawable.button_intersection_r);
             mBtnIntersection.setEnabled(true);
@@ -370,7 +363,6 @@ public class MainActivity extends ActionBarActivity {
             mBtnIntersection.setImageResource(R.drawable.button_intersection);
             mBtnIntersection.setEnabled(false);
         }
-
     }
 
     // TODO Animate

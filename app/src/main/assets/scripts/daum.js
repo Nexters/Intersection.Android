@@ -44,11 +44,11 @@ var selectedItem = {
 
 var areaConfig = {
     strokeWeight: 0, // 선의 두께입니다
-    strokeColor: '#FBF7E4', // 선의 색깔입니다
-    strokeOpacity: 0.6, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeColor: '#000', // 선의 색깔입니다
+    strokeOpacity: 0.4, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
     strokeStyle: 'longdash', // 선의 스타일입니다
-    fillColor: '#FBF7E4', // 채우기 색깔입니다
-    fillOpacity: 0.6, // 채우기 불투명도 입니다
+    fillColor: '#000', // 채우기 색깔입니다
+    fillOpacity: 0.4, // 채우기 불투명도 입니다
     zIndex: -10
 };
 

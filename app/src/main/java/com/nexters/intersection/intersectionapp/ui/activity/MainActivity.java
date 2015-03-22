@@ -3,12 +3,15 @@ package com.nexters.intersection.intersectionapp.ui.activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -41,6 +45,7 @@ import com.nexters.intersection.intersectionapp.model.Translation;
 import com.nexters.intersection.intersectionapp.thread.MessageTask;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridge;
 import com.nexters.intersection.intersectionapp.ui.map.MapBridgeType;
+import com.nexters.intersection.intersectionapp.ui.view.LinearLayoutThatDetectsSoftKeyboard;
 import com.nexters.intersection.intersectionapp.utils.BackPressCloseHandler;
 import com.nexters.intersection.intersectionapp.utils.CommonUtils;
 import com.nexters.intersection.intersectionapp.utils.IntersactionSession;
@@ -55,7 +60,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements LinearLayoutThatDetectsSoftKeyboard.Listener {
     public static final String DAUM_MAP_URL = "http://map.daum.net/link/search/";
     public static final String COMMA_SEP = ",";
 
@@ -104,6 +109,8 @@ public class MainActivity extends ActionBarActivity {
     private SearchView searchView;
     private ImageButton mBtnSearch, mBtnSetting;
 
+    private InputMethodManager imm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +132,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initResource() {
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         mFooterHeight = getResources().getDimension(R.dimen.footer_height);
@@ -254,11 +263,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mapBridge.directSearch(query);
+                hideKeyboard(searchView.getWindowToken());
                 searchView.clearFocus();
-//                procToggleToolbar();
                 return true;
             }
         });
+
+
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -302,6 +313,10 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private void hideKeyboard(IBinder iBinder){
+        imm.hideSoftInputFromWindow(iBinder, 0);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //  Action Bar에서 SearchView를 보여주고 싶을때 사용하는 클래스입니다.
@@ -313,6 +328,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSoftKeyboardShown(boolean isShowing) {
+        Log.d("isShowing : ", "" + isShowing);
+        // do whatever you need to do here
     }
 
     // TODO MAP Method

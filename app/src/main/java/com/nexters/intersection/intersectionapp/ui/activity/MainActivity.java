@@ -269,8 +269,6 @@ public class MainActivity extends ActionBarActivity implements LinearLayoutThatD
             }
         });
 
-
-
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) { }
